@@ -1,59 +1,49 @@
 #include "Button.h"
+#include "InputManager.h"
 
-#include "Client_Define.h"
-Button::Button()
-	:MonoBehavior(L"Button")
-{
+using namespace Engine;
 
-}
-
-void Button::MouseUpdate()
-{
-	GetCursorPos(&_mousePosition);
-	ScreenToClient(Engine::GetWindow(), &_mousePosition); 
-}
-
-void Button::Awake()
-{
-
-}
-
-void Button::Start()
+Button::Button(const wchar_t* name)
+	: Component(name),
+	_pInputManager(InputManager::GetInstance())
 {
 }
 
 void Button::Update(const float& deltaTime)
 {
-	if (!IsActive())
-		return;
+	const Vector3& mousePosition = _pInputManager->GetMousePosition();
 
-	MouseUpdate();
-	int x = _mousePosition.x, y = _mousePosition.y;
-	
-	if (x > _buttonRange.left && x < _buttonRange.right && y>_buttonRange.top && y < _buttonRange.bottom)
+	if (mousePosition.x >= _buttonRange.left &&
+		mousePosition.x <= _buttonRange.right &&
+		mousePosition.y >= _buttonRange.top &&
+		mousePosition.y <= _buttonRange.bottom)
 	{
-		if (Input::IsKeyDown(Input::DIM_LB)&& GetOwner().IsActive())//Å¬¸¯
+		if (_pInputManager->IsKeyDown(Input::DIM_LB))
 		{
 			_onPressed();
 		}
-		else if(GetOwner().IsActive())
+		else
 		{
-			if (_isRepeat || (!_isRepeat && !_isExecute))
+			if (!_isHover)
 			{
 				_onHover();
+				_isHover = true;
 			}
-			_isExecute = true;
 		}
 	}
 	else 
 	{
-		_isExecute = false;
 		_cancel();
+		_isHover = false;
 	}
 	
 }
 
-void Button::LateUpdate(const float& deltaTime)
+void Engine::Button::SetRange(const Vector3& position, float width, float height)
 {
-
+	_buttonRange = {
+		position.x - width * 0.5f,
+		position.y - height * 0.5f,
+		position.x + width * 0.5f,
+		position.y + height * 0.5f };
 }

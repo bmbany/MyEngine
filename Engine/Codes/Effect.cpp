@@ -1,7 +1,8 @@
 #include "Effect.h"
 #include "Animation.h"
+#include "ResourceManager.h"
 
-#include "Client_Define.h"
+using namespace Engine;
 
 Effect::Effect(const EffectInfo& info)
     : MonoBehavior(L"Effect"), _info(info)
@@ -20,13 +21,13 @@ void Effect::Awake()
     transform.rotation = Vector3(0.f, 0.f, _info.rotation);
 
     // Component
-    _pSpriteRenderer = GetComponent<Engine::SpriteRenderer>();
+    //_pSpriteRenderer = GetComponent<Engine::SpriteRenderer>();
 
     if (nullptr != _info.textureTag)
     {
-        _pAnimation = AddComponent<Engine::Animation>(L"Animation");
+        //_pAnimation = AddComponent<Engine::Animation>(L"Animation");
         _pSpriteRenderer->BindAnimation(_pAnimation);
-        _pAnimation->AddAllFrame(L"Effect", Resource::FindTexture(_info.textureTag), _info.aniSpeed);
+        _pAnimation->AddAllFrame(L"Effect", ResourceManager::GetInstance()->FindTexture(_info.textureTag), _info.aniSpeed);
 
         if (_info.isFixFrame)
             _pAnimation->SetFrame(_info.fixFrame);

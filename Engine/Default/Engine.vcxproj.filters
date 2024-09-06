@@ -16,9 +16,6 @@
     <ClCompile Include="..\Codes\CollisionManager.cpp">
       <Filter>Manager\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\EventInvoker.cpp">
-      <Filter>Component\EventInvoker</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\FiniteStateMachine.cpp">
       <Filter>Component\FiniteStateMachine</Filter>
     </ClCompile>
@@ -33,9 +30,6 @@
     </ClCompile>
     <ClCompile Include="..\Codes\InputManager.cpp">
       <Filter>Manager\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Codes\Layer.cpp">
-      <Filter>Layer</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Renderer.cpp">
       <Filter>Renderer</Filter>
@@ -64,9 +58,6 @@
     <ClCompile Include="..\Codes\Timer.cpp">
       <Filter>Component\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Transform.cpp">
-      <Filter>Component\Transform</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\WinApp.cpp">
       <Filter>WinApp</Filter>
     </ClCompile>
@@ -91,20 +82,26 @@
     <ClCompile Include="..\Codes\TextRenderer.cpp">
       <Filter>Component\TextRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Button.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Codes\Effect.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\Component.cpp">
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\MonoBehavior.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\Button.cpp">
+      <Filter>Component\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Effect.cpp">
+      <Filter>Component\Effect</Filter>
+    </ClCompile>
     <ClCompile Include="..\Codes\Shader.cpp">
-      <Filter>Component</Filter>
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\EventInvoker.cpp">
+      <Filter>EventInvoker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Transform.cpp">
+      <Filter>Component\Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,10 +144,7 @@
     <ClInclude Include="..\Headers\Engine_Typedef.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\EventInvoker.h">
-      <Filter>Component\EventInvoker</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Headers\Export.h">
+    <ClInclude Include="..\Headers\Engine.h">
       <Filter>Export</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\FiniteStateMachine.h">
@@ -170,9 +164,6 @@
     </ClInclude>
     <ClInclude Include="..\Headers\InputManager.h">
       <Filter>Manager\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Headers\Layer.h">
-      <Filter>Layer</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Renderer.h">
       <Filter>Renderer</Filter>
@@ -203,9 +194,6 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Timer.h">
       <Filter>Component\Timer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Headers\Transform.h">
-      <Filter>Component\Transform</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\WinApp.h">
       <Filter>WinApp</Filter>
@@ -241,10 +229,16 @@
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Button.h">
-      <Filter>Component</Filter>
+      <Filter>Component\Button</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Effect.h">
-      <Filter>Component</Filter>
+      <Filter>Component\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\EventInvoker.h">
+      <Filter>EventInvoker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Transform.h">
+      <Filter>Component\Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -275,9 +269,6 @@
     <Filter Include="Headers">
       <UniqueIdentifier>{409ddc86-68d7-43ee-a915-ce3a8709b845}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\EventInvoker">
-      <UniqueIdentifier>{2ded49b6-1ea1-49ad-99bc-ec47bbf19b86}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Export">
       <UniqueIdentifier>{81c3b001-b184-48f6-a995-d1c9b4e54ae7}</UniqueIdentifier>
     </Filter>
@@ -295,9 +286,6 @@
     </Filter>
     <Filter Include="Manager\Input">
       <UniqueIdentifier>{3a457a54-8863-4574-8687-2512eb73c71c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Layer">
-      <UniqueIdentifier>{4f279175-5918-4486-b151-c0a4fbbd58c5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Renderer">
       <UniqueIdentifier>{bfb65271-886c-4674-a137-7f94f61ad8bd}</UniqueIdentifier>
@@ -347,6 +335,15 @@
     <Filter Include="Interface">
       <UniqueIdentifier>{48bcd4f2-54eb-42a7-8daf-6381c8c6b203}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Button">
+      <UniqueIdentifier>{84a34ec5-81fd-47f4-a8e3-bf93c14b4199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Effect">
+      <UniqueIdentifier>{df806298-303b-4b86-b32e-e918507829e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventInvoker">
+      <UniqueIdentifier>{b20a3fed-ffd8-4b0f-a1d3-cf67abfca7c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Headers\Export.inl">
@@ -365,6 +362,9 @@
       <Filter>Export</Filter>
     </None>
     <None Include="..\Headers\Export_Camera.inl">
+      <Filter>Export</Filter>
+    </None>
+    <None Include="..\Headers\Export_Object.inl">
       <Filter>Export</Filter>
     </None>
   </ItemGroup>

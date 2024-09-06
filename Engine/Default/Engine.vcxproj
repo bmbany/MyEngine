@@ -27,13 +27,12 @@
     <ClCompile Include="..\Codes\CollisionManager.cpp" />
     <ClCompile Include="..\Codes\Component.cpp" />
     <ClCompile Include="..\Codes\Effect.cpp" />
-    <ClCompile Include="..\Codes\EventInvoker.cpp" />
     <ClCompile Include="..\Codes\FiniteStateMachine.cpp" />
     <ClCompile Include="..\Codes\GameManager.cpp" />
     <ClCompile Include="..\Codes\GameObject.cpp" />
     <ClCompile Include="..\Codes\GraphicManager.cpp" />
     <ClCompile Include="..\Codes\InputManager.cpp" />
-    <ClCompile Include="..\Codes\Layer.cpp" />
+    <ClCompile Include="..\Codes\EventInvoker.cpp" />
     <ClCompile Include="..\Codes\MonoBehavior.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />
     <ClCompile Include="..\Codes\ResourceManager.cpp" />
@@ -71,8 +70,7 @@
     <ClInclude Include="..\Headers\Engine_Macro.h" />
     <ClInclude Include="..\Headers\Engine_Struct.h" />
     <ClInclude Include="..\Headers\Engine_Typedef.h" />
-    <ClInclude Include="..\Headers\EventInvoker.h" />
-    <ClInclude Include="..\Headers\Export.h" />
+    <ClInclude Include="..\Headers\Engine.h" />
     <ClInclude Include="..\Headers\FiniteStateMachine.h" />
     <ClInclude Include="..\Headers\Frame.h" />
     <ClInclude Include="..\Headers\GameManager.h" />
@@ -80,7 +78,7 @@
     <ClInclude Include="..\Headers\GraphicManager.h" />
     <ClInclude Include="..\Headers\ICollisionNotify.h" />
     <ClInclude Include="..\Headers\InputManager.h" />
-    <ClInclude Include="..\Headers\Layer.h" />
+    <ClInclude Include="..\Headers\EventInvoker.h" />
     <ClInclude Include="..\Headers\MonoBehavior.h" />
     <ClInclude Include="..\Headers\Renderer.h" />
     <ClInclude Include="..\Headers\ResourceManager.h" />
@@ -107,6 +105,7 @@
     <None Include="..\Headers\Export.inl" />
     <None Include="..\Headers\Export_Camera.inl" />
     <None Include="..\Headers\Export_Input.inl" />
+    <None Include="..\Headers\Export_Object.inl" />
     <None Include="..\Headers\Export_Resource.inl" />
     <None Include="..\Headers\Export_Sound.inl" />
     <None Include="..\Headers\Export_Time.inl" />
@@ -167,13 +166,13 @@
     <OutDir>../Reference/lib/Debug/</OutDir>
     <IncludePath>$(IncludePath)</IncludePath>
     <ExternalIncludePath>../Reference/inc/;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>../Reference/lib/;../Reference/lib/Debug/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>../Reference/lib;../Reference/lib/Debug/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>../Reference/lib/Release/</OutDir>
     <IncludePath>$(IncludePath)</IncludePath>
     <ExternalIncludePath>../Reference/inc/;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>../Reference/lib/;../Reference/lib/Release/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>../Reference/lib;../Reference/lib/Release/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

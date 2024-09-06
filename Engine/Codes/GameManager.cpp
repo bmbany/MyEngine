@@ -1,18 +1,18 @@
 #include "GameManager.h"
-#include "WinApp.h"
-#include "GameObject.h"
-#include "Scene.h"
-#include "Layer.h"
-#include "Renderer.h"
 #include "Camera.h"
+#include "EventInvoker.h"
+#include "GameObject.h"
+#include "Renderer.h"
+#include "Scene.h"
+#include "WinApp.h"
 
 // Manager
-#include "InputManager.h"
-#include "TimeManager.h"
-#include "ResourceManager.h"
-#include "SoundManager.h"
 #include "GraphicManager.h"
+#include "InputManager.h"
+#include "ResourceManager.h"
 #include "SceneManager.h"
+#include "SoundManager.h"
+#include "TimeManager.h"
 
 using namespace Engine;
 
@@ -25,7 +25,8 @@ Engine::GameManager::GameManager()
     _pGraphicMgr = GraphicManager::GetInstance();
     _pSceneMgr = SceneManager::Create();
     _pRenderer = Renderer::Create();
-    _pCamera = Camera::Create();   
+    _pCamera = Camera::Create();
+    _pEventInvoker = EventInvoker::Create();
 }
 
 void Engine::GameManager::Run()
@@ -85,6 +86,7 @@ int Engine::GameManager::UpdateGame()
     _pTimeMgr->Update();
     float deltaTime = _pTimeMgr->GetDeltaTime();
     _pInputMgr->Update(deltaTime);
+    _pEventInvoker->Update(deltaTime);
     isEvent = _pSceneMgr->Update(deltaTime);
     _pCamera->Update(deltaTime);
 
@@ -135,8 +137,7 @@ bool Engine::GameManager::Initialize(const GameDefaultSetting& info)
     if (false == _pRenderer->SetUpRenderer(renderInfo))
         return false;
 
-    if (false == _pSceneMgr->SetUpLayer(info.layerSize))
-        return false;
+    _pSceneMgr->SetUpLayer(info.layerSize);
 
     _pResourceMgr->SetWICFactory(_pGraphicMgr->GetWICFactory());
 
@@ -155,24 +156,25 @@ void Engine::GameManager::SetSlowTime(float rate)
     _pTimeMgr->SetSlowTime(rate);
 }
 
-bool Engine::GameManager::ChangeScene(Scene* pScene)
+void Engine::GameManager::ChangeScene(Scene* pScene)
 {
-    return _pSceneMgr->ChangeScene(pScene);
+    _pSceneMgr->ChangeScene(pScene);
 }
 
-std::list<GameObject*>* Engine::GameManager::FindObjectList(int layerGroup, const wchar_t* listTag)
+std::list<GameObject*>* Engine::GameManager::FindObjectList(const int layerGroup)
 {
-    return _pSceneMgr->FindObjectList(layerGroup, listTag);
+    return _pSceneMgr->FindObjectList(layerGroup);
 }
 
-GameObject* Engine::GameManager::FindObject(int layerGroup, const wchar_t* listTag, const wchar_t* objectTag)
+GameObject* Engine::GameManager::FindObject(const int layerGroup, const wchar_t* objectTag)
 {
-    return _pSceneMgr->FindObject(layerGroup, listTag, objectTag);
+    return _pSceneMgr->FindObject(layerGroup, objectTag);
 }
 
 void Engine::GameManager::Free()
 {
     SafeRelease(_pWinApp);
+    SafeRelease(_pEventInvoker);
     SafeRelease(_pCamera);
     SafeRelease(_pRenderer);
     SafeRelease(_pSceneMgr);
@@ -183,12 +185,12 @@ void Engine::GameManager::Free()
     SafeRelease(_pGraphicMgr);
 }
 
-bool Engine::GameManager::AddRenderGroup(int renderGroup, GameObject* pObject)
+bool Engine::GameManager::AddRenderGroup(const int renderGroup, GameObject* pObject)
 {
     return _pRenderer->AddRenderGroup(renderGroup, pObject);
 }
 
-void Engine::GameManager::SetSortGroup(int sortGroup, bool(*sortFunc)(GameObject*, GameObject*))
+void Engine::GameManager::SetSortGroup(const int sortGroup, bool(*sortFunc)(GameObject*, GameObject*))
 {
     _pRenderer->SetSortGroup(sortGroup, sortFunc);
 }
@@ -243,24 +245,19 @@ void Engine::GameManager::LoadSound(const char* filePath)
     _pSoundMgr->LoadSound(filePath);
 }
 
-void Engine::GameManager::ClearObjectList(int layerGroup, const wchar_t* listTag)
+void Engine::GameManager::ClearObjectList(const int layerGroup)
 {
-    _pSceneMgr->ClearObjectList(layerGroup, listTag);
+    _pSceneMgr->ClearObjectList(layerGroup);
     _pRenderer->ResetRenderGroup();
 }
 
-void Engine::GameManager::ClearLayer(int layerGroup)
+void Engine::GameManager::ClearLayer(const int layerGroup)
 {
     _pSceneMgr->ClearLayer(layerGroup);
     _pRenderer->ResetRenderGroup();
 }
 
-bool Engine::GameManager::AddObjectInLayer(int layerGroup, const wchar_t* listTag, GameObject* pObject)
+void Engine::GameManager::AddObjectInLayer(const int layerGroup, GameObject* pObject)
 {
-    return _pSceneMgr->AddObjectInLayer(layerGroup, listTag, pObject);
-}
-
-void Engine::GameManager::RemoveAll()
-{
-    _pSceneMgr->RemoveAll();
+    _pSceneMgr->AddObjectInLayer(layerGroup, pObject);
 }

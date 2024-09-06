@@ -4,9 +4,9 @@
 
 namespace Engine
 {
-    class SoundManager : public Base, public SingleTon<SoundManager>
+    class SoundManager : public Base, public Singleton<SoundManager>
     {
-        friend class SingleTon;
+        friend class Singleton;
     private:
         struct FadeSound
         {

@@ -2,15 +2,15 @@
 
 using namespace Engine;
 
-bool TimeManager::Initialize()
+Engine::TimeManager::TimeManager()
 {
-    LARGE_INTEGER frequency;
+    LARGE_INTEGER frequency{};
+
     QueryPerformanceFrequency(&frequency);
-    _frequency = float(frequency.QuadPart);
     QueryPerformanceCounter(&_oldTime);
     QueryPerformanceCounter(&_currTime);
 
-    return true;
+    _frequency = float(frequency.QuadPart);
 }
 
 void Engine::TimeManager::SetSlowTime(float rate)

@@ -13,11 +13,11 @@ namespace Engine
 	}
 
 	template <typename T>
-	class SingleTon
+	class Singleton
 	{
 	protected:
-		SingleTon() = default;
-		~SingleTon() = default;
+		Singleton() = default;
+		~Singleton() = default;
 
 	public:
 		static T* GetInstance()
@@ -32,7 +32,7 @@ namespace Engine
 		static T* _pInstance;
 	};
 	template <typename T>
-	T* SingleTon<T>::_pInstance = nullptr;
+	T* Singleton<T>::_pInstance = nullptr;
 
 	inline int RandomGeneratorInt(int first, int last)
 	{

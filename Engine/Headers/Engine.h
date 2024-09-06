@@ -7,21 +7,31 @@
 
 namespace Engine
 {
-	// Layer
-	inline void ClearLayer(int layerGroup);
-	inline void ClearObjectList(int layerGroup, const wchar_t* listTag);	
-	inline std::list<GameObject*>* FindObjectList(int layerGroup, const wchar_t* listTag);
-	inline GameObject* FindObject(int layerGroup, const wchar_t* listTag, const wchar_t* objectTag);
-	inline bool AddObjectInLayer(int layerGroup, const wchar_t* listTag, GameObject* pObject);
+	inline void ClearLayer(const int layerGroup);
+	inline void ClearObjectList(const int layerGroup);
+	inline std::list<GameObject*>* FindObjectList(const int layerGroup);
+	inline GameObject* FindObject(const int layerGroup, const wchar_t* objectTag);
+	inline void AddObjectInLayer(const int layerGroup, GameObject* pObject);
 	inline HWND GetWindow();
-	inline bool ChangeScene(Engine::Scene* pScene);
-	inline void RemoveAll();
+	inline void ChangeScene(Engine::Scene* pScene);
 	#include "Export.inl"
 }
 
+namespace GameObject
+{
+	template<typename T, typename... Args>
+	inline T* Instantiate(const Vector3& position, const Vector3& rotation, Args&&... args)
+	{
+		T* pInstance = new T(std::forward<Args>(args)...);
+		pInstance->transform.position = position;
+		pInstance->transform.rotation = rotation;
+
+		return pInstance;
+	}
+	#include "Export_Object.inl"
+}
 namespace Camera
 {
-	// Camera
 	inline void CameraShake(float shakeTime, float shakePower);
 	inline void SetTarget(Engine::Transform* pTarget);
 	inline void SetOffset(const Vector3& offset);
@@ -32,13 +42,12 @@ namespace Camera
 }
 
 namespace Resource
-{	// ResourceMgr
+{
 	inline Engine::Texture* FindTexture(const wchar_t* textureTag);
 	#include "Export_Resource.inl"
 }
 namespace Time
 {
-	// TimeMgr
 	inline double GetSumTime();
 	inline float GetGlobalDeltaTime();
 	inline void SetSumTime(float time);
@@ -50,7 +59,6 @@ namespace Time
 
 namespace Input
 {
-	// InputMgr
 	inline bool IsKeyDown(_byte keycord);
 	inline bool IsKeyDown(Input::MouseState mouseState);
 	inline bool IsKeyDown(Input::PadState padState);
@@ -71,7 +79,6 @@ namespace Input
 
 namespace Sound
 {
-	// SoundMgr
 	inline FMOD::Channel* PlaySound(const char* soundTag, int channelID, float volume, bool isLoop);
 	inline void DistancePlaySound(const Vector3& position, const char* soundTag, int groupID, bool isLoop);
 	inline void SetFadeVolume(int groupID, float volume);

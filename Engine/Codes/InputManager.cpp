@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include "GameManager.h"
 
 using namespace Engine;
 
@@ -10,10 +11,15 @@ void InputManager::Update(const float& deltaTime)
     _pKeyBoard->GetDeviceState(sizeof(_keyState), &_keyState);
     _pMouse->GetDeviceState(sizeof(_mouseState), &_mouseState);
 
-    DWORD result;    
-    XINPUT_STATE state;
-    ZeroMemory(&state, sizeof(XINPUT_STATE));
+    DWORD result = 0;
+    XINPUT_STATE state{};
     result = XInputGetState(0, &state);
+
+    POINT mousePoint{};
+    GetCursorPos(&mousePoint);
+    ScreenToClient(GameManager::GetInstance()->GetWindow(), &mousePoint);
+
+    _mousePosition = { (float)mousePoint.x, (float)mousePoint.y, 0.f };
 
     memcpy(&_oldPadState, &_padState, sizeof(GamePadState));
     _padState.button = state.Gamepad.wButtons;
@@ -127,6 +133,21 @@ bool Engine::InputManager::IsKeyPress(Input::PadState padState) const
     return _padState.button & padState;
 }
 
+bool Engine::InputManager::IsMouseWheel(Input::MouseState mouseState) const
+{
+    switch (mouseState)
+    {
+    case Input::DIM_WHDN:
+        if (0 > _mouseState.lZ) return true;
+        break;
+    case Input::DIM_WHUP:
+        if (0 < _mouseState.lZ) return true;
+        break;
+    }
+
+    return false;
+}
+
 float Engine::InputManager::GetAxis(Input::Axis type)
 {
     float axis = 0.f;
@@ -141,26 +162,11 @@ float Engine::InputManager::GetAxis(Input::Axis type)
     case Input::Horizontal:
         axis = _padState.thumb[GamePadState::LX];
         if (IsKeyPress(DIK_A)) axis = -1.f;
-        if (IsKeyPress(DIK_D)) axis = 1.f;        
+        if (IsKeyPress(DIK_D)) axis = 1.f;
         break;
     }
 
     return axis;
-}
-
-bool Engine::InputManager::IsMouseWheel(Input::MouseState mouseState) const
-{
-    switch (mouseState)
-    {
-    case Input::DIM_WHDN:
-        if (0 > _mouseState.lZ) return true;
-        break;
-    case Input::DIM_WHUP:
-        if (0 < _mouseState.lZ) return true;
-        break;
-    }
-
-    return false;
 }
 
 float Engine::InputManager::GetMouseMove(Input::MouseMove mouseMove) const

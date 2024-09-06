@@ -6,9 +6,10 @@
 
 using namespace Engine;
 
-Engine::GameObject::GameObject()
+Engine::GameObject::GameObject(const wchar_t* name)
 	: _pGameManager(GameManager::GetInstance())
 {
+	SetName(name);
 	_pTransform = AddComponent<Transform>(L"Transform");
 	_pSpriteRenderer = AddComponent<SpriteRenderer>(L"SpriteRenderer");
 }
@@ -18,11 +19,6 @@ Engine::GameObject::~GameObject()
 	Free();
 }
 
-GameObject* Engine::GameObject::Create()
-{
-	return new GameObject;
-}
-
 void Engine::GameObject::Start()
 {
 	if (_isFirstInit) return;
@@ -30,7 +26,7 @@ void Engine::GameObject::Start()
 	for (auto& component : _components)
 		component->Start();
 
-	_isFirstInit = true;
+	_isFirstInit = true;	
 }
 
 void Engine::GameObject::FixedUpdate()

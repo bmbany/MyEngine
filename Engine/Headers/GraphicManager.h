@@ -5,9 +5,9 @@ namespace Engine
 {
 	class Factorys;
 	class Shader;
-	class GraphicManager : public Base, public SingleTon<GraphicManager>
+	class GraphicManager : public Base, public Singleton<GraphicManager>
 	{
-		friend class SingleTon;
+		friend class Singleton;
 	private:
 		explicit GraphicManager();
 		virtual ~GraphicManager() = default;

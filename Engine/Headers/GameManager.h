@@ -25,18 +25,19 @@ namespace Engine
 	class Camera;
 	class InputAction;
 	class Transform;
+	class EventInvoker;
 
 	// App
 	class WinApp;
 
-	class GameManager : public Base, public SingleTon<GameManager>
+	class GameManager : public Base, public Singleton<GameManager>
 	{
-		friend class SingleTon;
+		friend class Singleton;
 	public:
 		struct GameDefaultSetting
 		{
 			HINSTANCE hInstance{};
-			const TCHAR* appName{};
+			const wchar_t* appName{};
 			int renderGroupSize{};
 			int maxSoundGroup{};
 			int layerSize{};
@@ -61,20 +62,19 @@ namespace Engine
 		void SetSlowTime(float rate);
 
 		// SceneMgr
-		bool ChangeScene(Scene* pScene);
-		void ClearObjectList(int layerGroup, const wchar_t* listTag);
-		void ClearLayer(int layerGroup);
-		std::list<GameObject*>* FindObjectList(int layerGroup, const wchar_t* listTag);
-		GameObject* FindObject(int layerGroup, const wchar_t* listTag, const wchar_t* objectTag);
-		bool AddObjectInLayer(int layerGroup, const wchar_t* listTag, GameObject* pObject);
-		void RemoveAll();
+		void ChangeScene(Scene* pScene);
+		void ClearObjectList(const int layerGroup);
+		void ClearLayer(const int layerGroup);
+		std::list<GameObject*>* FindObjectList(const int layerGroup);
+		GameObject* FindObject(const int layerGroup, const wchar_t* objectTag);
+		void AddObjectInLayer(const int layerGroup, GameObject* pObject);
 
 		// SoundMgr
 		void LoadSound(const char* filePath);
 
 		// Renderer
-		bool AddRenderGroup(int renderGroup, GameObject* pObject);
-		void SetSortGroup(int sortGroup, bool(*sortFunc)(GameObject*, GameObject*));
+		bool AddRenderGroup(const int renderGroup, GameObject* pObject);
+		void SetSortGroup(const int sortGroup, bool(*sortFunc)(GameObject*, GameObject*));
 		size_t GetUsedVRAM();
 
 		// Camera
@@ -112,8 +112,9 @@ namespace Engine
 		HWND				_hWnd			= nullptr;
 		GameObject*			_pSoundTarget	= nullptr;
 		Camera*				_pCamera		= nullptr;
+		EventInvoker*		_pEventInvoker	= nullptr;
 		float				_elapsed		= 0.f;
-		int					_fixedCount = 0;
+		int					_fixedCount		= 0;
 		bool				_isSceneChange	= false;
 	};
 }

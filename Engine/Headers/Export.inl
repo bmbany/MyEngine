@@ -1,26 +1,25 @@
 #pragma once
 
-// Layer
-void ClearLayer(int layerGroup)
+void ClearLayer(const int layerGroup)
 {
 	Engine::GameManager::GetInstance()->ClearLayer(layerGroup);
 }
-void ClearObjectList(int layerGroup, const wchar_t* listTag)
+void ClearObjectList(const int layerGroup)
 {
-	Engine::GameManager::GetInstance()->ClearObjectList(layerGroup, listTag);
+	Engine::GameManager::GetInstance()->ClearObjectList(layerGroup);
 }
 
-std::list<Engine::GameObject*>* FindObjectList(int layerGroup, const wchar_t* listTag)
+std::list<Engine::GameObject*>* FindObjectList(const int layerGroup)
 {
-	return Engine::GameManager::GetInstance()->FindObjectList(layerGroup, listTag);
+	return Engine::GameManager::GetInstance()->FindObjectList(layerGroup);
 }
-Engine::GameObject* FindObject(int layerGroup, const wchar_t* listTag, const wchar_t* objectTag)
+Engine::GameObject* FindObject(const int layerGroup, const wchar_t* objectTag)
 {
-	return Engine::GameManager::GetInstance()->FindObject(layerGroup, listTag, objectTag);
+	return Engine::GameManager::GetInstance()->FindObject(layerGroup, objectTag);
 }
-bool AddObjectInLayer(int layerGroup, const wchar_t* listTag, Engine::GameObject* pObject)
+void AddObjectInLayer(const int layerGroup, Engine::GameObject* pObject)
 {
-	return Engine::GameManager::GetInstance()->AddObjectInLayer(layerGroup, listTag, pObject);
+	Engine::GameManager::GetInstance()->AddObjectInLayer(layerGroup, pObject);
 }
 
 HWND GetWindow()
@@ -28,12 +27,7 @@ HWND GetWindow()
 	return Engine::GameManager::GetInstance()->GetWindow();
 }
 
-bool ChangeScene(Engine::Scene* pScene)
+void ChangeScene(Engine::Scene* pScene)
 {
-	return Engine::GameManager::GetInstance()->ChangeScene(pScene);
-}
-
-void RemoveAll()
-{
-	Engine::GameManager::GetInstance()->RemoveAll();
+	Engine::GameManager::GetInstance()->ChangeScene(pScene);
 }

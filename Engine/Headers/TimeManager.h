@@ -4,11 +4,11 @@
 
 namespace Engine
 {
-    class TimeManager : public Base, public SingleTon<TimeManager>
+    class TimeManager : public Base, public Singleton<TimeManager>
     {
-        friend class SingleTon;
+        friend class Singleton;
     private:
-        explicit TimeManager() { Initialize(); }
+        explicit TimeManager();
         virtual ~TimeManager() = default;
         NOCOPY(TimeManager)
     public:
@@ -19,13 +19,12 @@ namespace Engine
 
         void SetSlowTime(float rate);
         void SetSlowTime(float rate, float duration);
-        float GetGlobalDeltaTime() { return 0.001f <= _globalDeltaTime ? 0.001f : _globalDeltaTime; }
+        float GetGlobalDeltaTime() { return 0.1f <= _globalDeltaTime ? 0.1f : _globalDeltaTime; }
         void Update();
 
     private:
         // Base을(를) 통해 상속됨
         void Free() override;
-        bool Initialize();
 
     private:
         LARGE_INTEGER _currTime;

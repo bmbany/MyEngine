@@ -5,9 +5,9 @@
 namespace Engine
 {
 	class Texture;
-	class ResourceManager : public Base, public SingleTon<ResourceManager>
+	class ResourceManager : public Base, public Singleton<ResourceManager>
 	{
-		friend class SingleTon;
+		friend class Singleton;
 	private:
 		using TextureData = std::unordered_map<std::wstring, Texture*>;
 		using AnimationInfo = std::unordered_map<std::wstring, std::vector<Frame>>;

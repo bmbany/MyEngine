@@ -1,19 +1,25 @@
 #include "SceneManager.h"
 #include "Scene.h"
-#include "Layer.h"
+#include "GameObject.h"
 
 using namespace Engine;
 
 void Engine::SceneManager::Start()
 {
 	for (auto& layer : _layers)
-		layer->Start();
+	{
+		for (auto& object : layer)
+			object->Start();
+	}
 }
 
 void Engine::SceneManager::FixedUpdate()
 {
 	for (auto& layer : _layers)
-		layer->FixUpdate();
+	{
+		for (auto& object : layer)
+			object->FixedUpdate();
+	}
 }
 
 int Engine::SceneManager::Update(const float& deltaTime)
@@ -24,9 +30,12 @@ int Engine::SceneManager::Update(const float& deltaTime)
 	int isEvent = 0;
 	for (auto& layer : _layers)
 	{
-		isEvent = layer->Update(deltaTime);
-		if (GameState::Game_End == isEvent)
-			return isEvent;
+		for (auto& object : layer)
+		{
+			isEvent = object->Update(deltaTime);
+			if (GameState::Game_End == isEvent)
+				return isEvent;
+		}
 	}
 
 	_pScene->Update(deltaTime);
@@ -43,9 +52,12 @@ int Engine::SceneManager::LateUpdate(const float& deltaTime)
 
 	for (auto& layer : _layers)
 	{
-		isEvent = layer->LateUpdate(deltaTime);
-		if (GameState::Game_End == isEvent)
-			return isEvent;
+		for (auto& object : layer)
+		{
+			isEvent = object->LateUpdate(deltaTime);
+			if (GameState::Game_End == isEvent)
+				return isEvent;
+		}
 	}
 
 	_pScene->LateUpdate(deltaTime);
@@ -56,75 +68,95 @@ int Engine::SceneManager::LateUpdate(const float& deltaTime)
 void Engine::SceneManager::AddRenderGroup()
 {
 	for (auto& layer : _layers)
-		layer->AddRenderer();
+	{
+		for (auto& object : layer)
+			object->AddRenderer();
+	}
 }
 
-bool Engine::SceneManager::SetUpLayer(int layerSize)
+void Engine::SceneManager::SetUpLayer(const int layerSize)
 {
-	_layers.reserve(layerSize);
-	for (int i = 0; i < layerSize; i++)
-		_layers.push_back(Layer::Create());
-
-	return true;
+	_layers.resize(layerSize);
 }
 
-bool Engine::SceneManager::ChangeScene(Scene* pScene)
+void Engine::SceneManager::ChangeScene(Scene* pScene)
 {
-	if (nullptr == pScene)
-		return false;
+	assert(nullptr != pScene);
 
 	if (nullptr != _pScene)
 		SafeRelease(_pScene);
 
 	for (auto& layer : _layers)
-		layer->ClearAllObjectList();
+	{
+		for (auto& object : layer)
+		{
+			if (object->_dontDestroy)
+				continue;
+
+			object->SetDead();
+		}
+	}
 
 	_pScene = pScene;
 	_pScene->Initialize();
 	_isSetUp = true;
-
-	return false;
 }
 
-void Engine::SceneManager::ClearObjectList(int layerGroup, const wchar_t* listTag)
-{
-	_layers[layerGroup]->ClearObjectList(listTag);
-}
-
-void Engine::SceneManager::ClearLayer(int layerGroup)
-{
-	_layers[layerGroup]->ClearAllObjectList();
-}
-
-void Engine::SceneManager::RemoveAll()
+void Engine::SceneManager::ClearObjectList(const int layerGroup)
 {
 	for (auto& layer : _layers)
-		layer->RemoveAll();
+	{
+		for (auto& object : layer)
+		{
+			object->SetDead();
+		}
+	}
 }
 
-std::list<GameObject*>* Engine::SceneManager::FindObjectList(int layerGroup, const wchar_t* listTag)
+void Engine::SceneManager::ClearLayer(const int layerGroup)
 {
-	return _layers[layerGroup]->FindObjectList(listTag);
+	for (auto& object : _layers[layerGroup])
+		object->SetDead();
 }
 
-GameObject* Engine::SceneManager::FindObject(int layerGroup, const wchar_t* listTag, const wchar_t* objectTag)
+std::list<GameObject*>* Engine::SceneManager::FindObjectList(const int layerGroup)
 {
-	return _layers[layerGroup]->FindObject(listTag, objectTag);
+	return &_layers[layerGroup];
 }
 
-bool Engine::SceneManager::AddObjectInLayer(int layerGroup, const wchar_t* listTag, GameObject* pObject)
+GameObject* Engine::SceneManager::FindObject(const int layerGroup, const wchar_t* objectTag)
 {
-	if (_layers.empty())
-		return false;
+	if (0 > layerGroup || (int)_layers.size() <= layerGroup)
+		return nullptr;
 
-	_layers[layerGroup]->AddObject(listTag, pObject);
+	for (auto& object : _layers[layerGroup])
+	{
+		if (object->_isDead)
+			continue;
 
-	return true;
+		if (*object == objectTag)
+			return object;
+	}
+
+	return nullptr;
+}
+
+void Engine::SceneManager::AddObjectInLayer(const int layerGroup, GameObject* pObject)
+{
+	assert(!_layers.empty());
+	_layers[layerGroup].push_back(pObject);
 }
 
 void Engine::SceneManager::Free()
 {
-	std::for_each(_layers.begin(), _layers.end(), SafeRelease<Layer*>);
+	for (auto& layer : _layers)
+	{
+		for (auto& object : layer)
+			SafeRelease(object);
+
+		layer.clear();
+	}
+
 	_layers.clear();
 	_layers.shrink_to_fit();
 

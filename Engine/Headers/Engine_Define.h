@@ -21,6 +21,7 @@
 #include <mutex>
 #include <random>
 #include <iomanip>
+#include <type_traits>
 
 #include <d2d1_1.h>
 #include <d2d1_1helper.h>
@@ -35,10 +36,11 @@
 #include <dinput.h>
 #include <Xinput.h>
 
-#pragma comment(lib,"d2d1.lib")
-#pragma comment(lib,"dxgi.lib")
-#pragma comment(lib,"dwrite.lib")
-#pragma comment(lib,"windowscodecs.lib")
+#pragma comment(lib, "d2d1.lib")
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "dwrite.lib")
+#pragma comment(lib, "windowscodecs.lib")
+#pragma comment(lib, "fmod_vc.lib")
 
 using namespace DirectX;
 

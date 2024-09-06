@@ -1,39 +1,38 @@
 #pragma once
-#include "Component.h"
+#include "Base.h"
 
 namespace Engine
 {
-	class EventInvoker : public Component
+	class EventInvoker final : public Base
 	{
-		struct EventAction
-		{
-			EventAction(const std::function<void()>& func, float activeTime)
-				: function(func), activeTime(activeTime) {}
-
-			std::function<void()> function = nullptr;
-			float elapsed = 0.f;
-			float activeTime = 0.f;
-		};
-	public:
-		explicit EventInvoker(const wchar_t* name);
 	private:
+		struct Event
+		{
+			std::function<void()> function;
+			std::wstring name;
+			float firstDelay = 0.f;
+			float repeatDelay = 0.f;
+			float elpased = 0.f;
+			bool isRepeat = false;
+		};
+	private:
+		explicit EventInvoker() = default;
 		virtual ~EventInvoker() = default;
 
 	public:
-		void Update(const float& deltaTime) override;
-		void SetUseGlobalDeltaTime(bool isActive) { _isUseGlobalDeltaTime = isActive; }
-		void ResetAction() { _eventActions.clear(); }
-		void BindAction(const float activeTime, const std::function<void()>& function)
-		{
-			_eventActions.push_back(EventAction(function, activeTime));
-		}
+		void Update(const float& deltaTime);
+		void Invoke(const wchar_t* name, const std::function<void()>& function, float delay);
+		void InvokeRepeating(const wchar_t* name, const std::function<void()>& function, float delay, float repeatDelay);
+		void CancelInvoke(const wchar_t* name);
+
 	private:
-		// Component을(를) 통해 상속됨
+		// Base을(를) 통해 상속됨
 		void Free() override;
 
-	private:
-		std::list<EventAction>	_eventActions;
-		bool					_isUseGlobalDeltaTime = false;
+	public:
+		static EventInvoker* Create();
 
+	private:
+		std::list<Event> _events;
 	};
 }

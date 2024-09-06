@@ -37,9 +37,9 @@ namespace Input
 
 namespace Engine
 {
-	class InputManager : public Base, public SingleTon<InputManager>
+	class InputManager : public Base, public Singleton<InputManager>
 	{
-		friend class SingleTon;
+		friend class Singleton;
 	private:
 		struct ButtonQueue
 		{
@@ -80,9 +80,10 @@ namespace Engine
 		bool IsKeyPress(_byte keycord) const;
 		bool IsKeyPress(Input::MouseState mouseState) const;
 		bool IsKeyPress(Input::PadState padState) const;
-		float GetAxis(Input::Axis type);
 		bool IsMouseWheel(Input::MouseState mouseState) const;
+		float GetAxis(Input::Axis type);
 		float GetMouseMove(Input::MouseMove mouseMove) const;
+		const Vector3& GetMousePosition() const { return _mousePosition; }
 		void SetThumbDeadZone(short left, short right) { _leftThumbDeadZone = left; _rightThumbDeadZone = right; }
 		void SetTriggerThreshold(byte value) { _triggerThreshold = value; }
 		void SetVibration(float power);
@@ -102,13 +103,14 @@ namespace Engine
 		GamePadState				_oldPadState{};
 		GamePadState				_padState{};
 
+		Vector3						_mousePosition;
 		LPDIRECTINPUT8				_pInputSDK = nullptr;
 		LPDIRECTINPUTDEVICE8		_pKeyBoard = nullptr;
 		LPDIRECTINPUTDEVICE8		_pMouse = nullptr;
 
+		InputType					_currInputType{};
 		short						_leftThumbDeadZone = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
 		short						_rightThumbDeadZone = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
 		byte						_triggerThreshold = XINPUT_GAMEPAD_TRIGGER_THRESHOLD;
-		InputType					_currInputType{};
 	};
 }

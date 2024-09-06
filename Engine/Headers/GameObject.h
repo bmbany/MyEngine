@@ -17,14 +17,15 @@ namespace Engine
 	class GameObject : public Base
 	{
 		friend class GameManager;
-		friend class Layer;
+		friend class SceneManager;
 		friend class Component;
 		friend class Renderer;
 		friend class SpriteRenderer;
 		friend class TextRenderer;
 		friend class CollisionManager;
-	protected:
-		explicit GameObject();
+	public:
+		explicit GameObject(const wchar_t* name);
+	private:
 		virtual ~GameObject();
 	
 	public:
@@ -40,13 +41,7 @@ namespace Engine
 		template<typename T>
 		T* GetComponent(const wchar_t* name)
 		{
-			for (auto& component : _components)
-			{
-				if (!lstrcmp(component->GetName(), name))
-					return static_cast<T*>(component);
-			}
-
-			return nullptr;
+			return static_cast<T*>(_componentData[name]);
 		}
 
 		template<typename T>
@@ -62,12 +57,15 @@ namespace Engine
 		}
 
 		template<typename T, typename... Args>
+			requires (std::is_base_of<Component, T>::value) &&
+			requires (Args&&... args) { new T(std::forward<Args>(args)...); }
 		T* AddComponent(Args&&... args)
 		{
 			T* pComponent = new T(std::forward<Args>(args)...);
 			pComponent->_pOwner = this;
 			pComponent->Awake();
 			_components.push_back(pComponent);
+			_componentData[pComponent->GetName()] = pComponent;
 
 			if constexpr (std::is_base_of_v<ICollisionNotify, T>)
 				_registeredCollisionEventComponents.push_back(pComponent);
@@ -85,9 +83,6 @@ namespace Engine
 	public:
 		__declspec(property(get = GetTransform)) Transform& transform;
 
-	public:
-		static GameObject* Create();
-
 	private:
 		void Start();
 		void FixedUpdate();
@@ -100,16 +95,17 @@ namespace Engine
 		void Free() override;
 	
 	private:
-		std::vector<Component*>			_components;
-		std::vector<Collider*>			_colliders;
-		std::vector<ICollisionNotify*>	_registeredCollisionEventComponents;
-		D2D1_MATRIX_3X2_F				_cameraMatrix;
-		GameManager*					_pGameManager = nullptr;
-		int								_renderGroup = -1;
-		bool							_isDead = false;
-		bool							_dontDestroy = false;
-		bool							_isFirstInit = false;
-		bool							_isNotAffectCamera = false;
+		std::unordered_map<std::wstring_view, Component*>	_componentData;
+		std::vector<Component*>								_components;
+		std::vector<Collider*>								_colliders;
+		std::vector<ICollisionNotify*>						_registeredCollisionEventComponents;
+		D2D1_MATRIX_3X2_F									_cameraMatrix;
+		GameManager*										_pGameManager = nullptr;
+		int													_renderGroup = -1;
+		bool												_isDead = false;
+		bool												_dontDestroy = false;
+		bool												_isFirstInit = false;
+		bool												_isNotAffectCamera = false;
 
 	protected:
 		Transform*						_pTransform	= nullptr;

@@ -1,36 +1,54 @@
 #include "EventInvoker.h"
-#include "TimeManager.h"
 
 using namespace Engine;
 
-Engine::EventInvoker::EventInvoker(const wchar_t* name)
-	: Component(name)
-{
-}
-
 void Engine::EventInvoker::Update(const float& deltaTime)
 {
-	float delta = deltaTime;
+	auto iter_end = _events.end();
 
-	if (_isUseGlobalDeltaTime)
-		delta = TimeManager::GetInstance()->GetGlobalDeltaTime();
-
-	auto iter = _eventActions.begin();
-
-	for (iter; iter != _eventActions.end();)
+	for (auto iter = _events.begin(); iter != iter_end;)
 	{
-		iter->elapsed += delta;
+		iter->elpased += deltaTime;
 
-		if (iter->activeTime < iter->elapsed)
+		if (iter->elpased >= iter->firstDelay)
 		{
 			iter->function();
-			iter = _eventActions.erase(iter);
+
+			if (!iter->isRepeat)
+			{
+				iter = _events.erase(iter);
+				iter_end = _events.end();
+				continue;
+			}
+
+			iter->firstDelay = iter->repeatDelay;
+			iter->elpased = 0.f;
 		}
-		else
-			++iter;
+
+		++iter;
 	}
+}
+
+void Engine::EventInvoker::Invoke(const wchar_t* name, const std::function<void()>& function, float delay)
+{
+	_events.emplace_back(function, name, delay);
+}
+
+void Engine::EventInvoker::InvokeRepeating(const wchar_t* name, const std::function<void()>& function, float delay, float repeatDelay)
+{
+	_events.emplace_back(function, name, delay, repeatDelay, true);
+}
+
+void Engine::EventInvoker::CancelInvoke(const wchar_t* name)
+{
+	_events.remove_if([name](const Event& event) { return event.name == name; });
 }
 
 void Engine::EventInvoker::Free()
 {
+}
+
+EventInvoker* Engine::EventInvoker::Create()
+{
+	return new EventInvoker;
 }

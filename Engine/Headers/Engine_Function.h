@@ -70,8 +70,9 @@ namespace Engine
 			: _value(origin), _gettor(gettor), _settor(settor) {}
 
 		inline operator const T&() { return _gettor(_value); }
-		inline const T& operator->() const { return _value; }
-		inline const T& operator*() const { return _value; }
+		inline const T& operator->() requires(std::is_pointer<T>::value) { return _value; }
+		inline const T* operator->() requires(!std::is_pointer<T>::value) { return &_value; }
+		inline const T& operator*() { return _value; }
 		inline void operator=(const T& other) requires (!readOnly)
 		{ _settor(_value, other); }
 		inline void operator=(const Property<T>& other) requires (!readOnly)

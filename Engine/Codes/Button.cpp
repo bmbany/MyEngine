@@ -35,8 +35,7 @@ void Button::Update(const float& deltaTime)
 	{
 		_cancel();
 		_isHover = false;
-	}
-	
+	}	
 }
 
 void Engine::Button::SetRange(const Vector3& position, float width, float height)

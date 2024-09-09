@@ -69,7 +69,7 @@
     <ClInclude Include="..\Headers\Effect.h" />
     <ClInclude Include="..\Headers\Engine_Define.h" />
     <ClInclude Include="..\Headers\Engine_Enum.h" />
-    <ClInclude Include="..\Headers\Engine_Function.h" />
+    <ClInclude Include="..\Headers\Engine_Utility.h" />
     <ClInclude Include="..\Headers\Engine_Struct.h" />
     <ClInclude Include="..\Headers\Engine_Typedef.h" />
     <ClInclude Include="..\Headers\Engine.h" />

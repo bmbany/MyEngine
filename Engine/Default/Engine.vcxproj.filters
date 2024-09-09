@@ -138,7 +138,7 @@
     <ClInclude Include="..\Headers\Engine_Enum.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\Engine_Function.h">
+    <ClInclude Include="..\Headers\Engine_Utility.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Engine_Struct.h">

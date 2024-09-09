@@ -23,7 +23,7 @@ namespace Engine
 		void SetMinPosition(const Vector3& position) { _minPosition = position; }
 		void SetArea(const Vector3& area) { _area = area; }
 		void CameraShake(float shakeTime, float shakePower);
-		const D2D1_MATRIX_3X2_F& GetCameraMatrix();
+		const Matrix& GetCameraMatrix();
 
 	private:
 		Vector3 GetRandomShakeVector(const float shakePower);

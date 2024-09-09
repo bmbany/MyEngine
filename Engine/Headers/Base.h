@@ -16,7 +16,7 @@ namespace Engine
 			delete this;
 		}
 
-		inline void SetActive(bool isActive) { _isActive = isActive; }
+		inline virtual void SetActive(bool isActive) { _isActive = isActive; }
 		inline void SetName(const wchar_t* name) { _name = name; }
 		inline const wchar_t* GetName() const { return _name.c_str(); }
 		inline bool IsActive() const { return _isActive; }

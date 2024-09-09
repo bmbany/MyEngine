@@ -23,8 +23,8 @@ namespace GameObject
 	inline T* Instantiate(const Vector3& position, const Vector3& rotation, Args&&... args)
 	{
 		T* pInstance = new T(std::forward<Args>(args)...);
-		pInstance->transform.position = position;
-		pInstance->transform.rotation = rotation;
+		pInstance->transform->position = position;
+		pInstance->transform->rotation = rotation;
 
 		return pInstance;
 	}
@@ -48,9 +48,7 @@ namespace Resource
 }
 namespace Time
 {
-	inline double GetSumTime();
 	inline float GetGlobalDeltaTime();
-	inline void SetSumTime(float time);
 	inline void SetSlowTime(float rate);
 	inline void SetSlowTime(float rate, float duration);
 	inline float GetDeltaTime();
@@ -70,6 +68,7 @@ namespace Input
 	inline bool IsKeyPress(Input::PadState padState);
 	inline float GetAxis(Input::Axis type);
 	inline float GetMouseMove(Input::MouseMove mouseMove);
+	inline const Vector3& GetMousePosition();
 	inline bool IsMouseWheel(Input::MouseState mouseState);
 	inline void SetThumbDeadZone(short left, short right);
 	inline void SetTriggerThreshold(byte value);

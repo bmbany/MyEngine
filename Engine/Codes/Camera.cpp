@@ -14,7 +14,7 @@ void Engine::Camera::Update(const float& deltaTime)
 
 	if (nullptr != _pTarget)
 	{
-		_pTransform->SetPosition(_pTarget->GetPosition());
+		_pTransform->position = _pTarget->position;
 	}
 }
 
@@ -72,7 +72,7 @@ void Engine::Camera::LateUpdate(const float& deltaTime)
 		}
 	}
 
-	_pTransform->SetPosition(position - _offset + _shakePosition);
+	_pTransform->position = position - _offset + _shakePosition;
 	_pTransform->UpdateTransform();
 }
 
@@ -90,12 +90,12 @@ void Engine::Camera::CameraShake(float shakeTime, float shakePower)
 	_shakeTime = shakeTime;
 	_originShakePower = _shakePower = shakePower;
 	_pTimer->SetActive(0, true);
-	_prevPosition = _pTransform->GetPosition();
+	_prevPosition = _pTransform->position;
 }
 
-const D2D1_MATRIX_3X2_F& Engine::Camera::GetCameraMatrix()
+const Matrix& Engine::Camera::GetCameraMatrix()
 {
-	return _pTransform->GetWorldMatrix();
+	return _pTransform->worldMatrix;
 }
 
 Vector3 Engine::Camera::GetRandomShakeVector(const float shakePower)
@@ -106,8 +106,8 @@ Vector3 Engine::Camera::GetRandomShakeVector(const float shakePower)
 
 bool Engine::Camera::Initialize()
 {
-	_pTransform = new Transform(L"Transform");
-	_pTimer = new Timer(L"Timer", 1);
+	/*_pTransform = new Transform(L"Transform");
+	_pTimer = new Timer(L"Timer", 1);*/
 
 	return true;
 }

@@ -82,9 +82,6 @@
     <ClCompile Include="..\Codes\TextRenderer.cpp">
       <Filter>Component\TextRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Component.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\MonoBehavior.cpp">
       <Filter>Component</Filter>
     </ClCompile>
@@ -102,6 +99,15 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Transform.cpp">
       <Filter>Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BoxCollider.cpp">
+      <Filter>Component\Collider\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\SphereCollider.cpp">
+      <Filter>Component\Collider\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Component.cpp">
+      <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +139,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Engine_Function.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Headers\Engine_Macro.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Engine_Struct.h">
@@ -240,6 +243,12 @@
     <ClInclude Include="..\Headers\Transform.h">
       <Filter>Component\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\SphereCollider.h">
+      <Filter>Component\Collider\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\BoxCollider.h">
+      <Filter>Component\Collider\Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -343,6 +352,12 @@
     </Filter>
     <Filter Include="EventInvoker">
       <UniqueIdentifier>{b20a3fed-ffd8-4b0f-a1d3-cf67abfca7c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider\Box">
+      <UniqueIdentifier>{f860bb9a-1553-4420-b405-c1441eddf128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider\Sphere">
+      <UniqueIdentifier>{d255061a-6b63-4669-94f9-96a0179fb3bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

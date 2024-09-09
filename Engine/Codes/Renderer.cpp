@@ -13,8 +13,8 @@ void Engine::Renderer::Render_GameObject()
     _info.pDeviceContext->BeginDraw();
     _info.pDeviceContext->Clear(D2D1::ColorF(D2D1::ColorF::Gray));
 
-    D2D1_MATRIX_3X2_F cameraMatrix = _pCurrCamera->GetCameraMatrix();
-    D2D1InvertMatrix(&cameraMatrix);
+    /*D2D1_MATRIX_3X2_F cameraMatrix = _pCurrCamera->GetCameraMatrix();
+    D2D1InvertMatrix(&cameraMatrix);*/
 
     for (int i = 0; i < _info.size; i++)
     {
@@ -23,7 +23,7 @@ void Engine::Renderer::Render_GameObject()
 
         for (auto& Object : _renderGroup[i])
         {
-            memcpy(&Object->_cameraMatrix, &cameraMatrix, sizeof(D2D1_MATRIX_3X2_F));
+            /*memcpy(&Object->_cameraMatrix, &cameraMatrix, sizeof(D2D1_MATRIX_3X2_F));*/
             Object->Render();
         }
 

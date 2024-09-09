@@ -12,9 +12,6 @@
 
 void CheckMemoryLeaks()
 {
-	Engine::GameManager* pGameManager = Engine::GameManager::GetInstance();
-	pGameManager->RestoreDisplay();
-	SafeRelease(pGameManager);
 	_CrtDumpMemoryLeaks();
 }
 

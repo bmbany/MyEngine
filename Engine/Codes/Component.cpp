@@ -1,13 +1,8 @@
 #include "Component.h"
 
-using namespace Engine;
-
-Engine::Transform& Engine::Component::GetTransform()
+Engine::Component::Component(const wchar_t* name)
+	: gameObject(_pOwner),
+	transform(_pTransform)
 {
-    return _pOwner->GetTransform();
-}
-
-Engine::GameObject& Engine::Component::GetOwner()
-{
-    return *_pOwner;
+	SetName(name);
 }

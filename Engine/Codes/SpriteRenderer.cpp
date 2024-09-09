@@ -66,35 +66,35 @@ void Engine::SpriteRenderer::Draw()
 
 void Engine::SpriteRenderer::Draw(ID2D1Bitmap* pBitmap)
 {
-	D2D1_SIZE_F size = pBitmap->GetSize();
-	size.width = size.width * -0.5f + _drawOffset.x;
-	size.height = size.height * -0.5f + _drawOffset.y;
+	/*D2D1_SIZE_F imageSize = pBitmap->GetSize();
+	Vector3 offsetSize = { imageSize.width * -0.5f, imageSize.height * -0.5f, 0.f };
 
-	D2D1_MATRIX_3X2_F offset = D2D1::Matrix3x2F::Translation(size);
-		
+	Matrix offset;
+	offset.Translation(offsetSize);
+
 	_pDeviceContext->SetTransform(offset * transform.worldMatrix * gameObject._cameraMatrix);
 
 	if (_currShader != typeid(ShaderComposite).hash_code())
 		_shaderData[_currShader]->ComputeShader(pBitmap);
-	_pDeviceContext->DrawImage(_shaderData[_currShader]->GetEffect());
+	_pDeviceContext->DrawImage(_shaderData[_currShader]->GetEffect());*/
 }
 
 void Engine::SpriteRenderer::DrawRect(const D2D1_RECT_F& rect, const D2D1::ColorF& color, float width)
 {	
-	_pDeviceContext->SetTransform(transform.worldMatrix * gameObject._cameraMatrix);
+	/*_pDeviceContext->SetTransform(transform.worldMatrix * gameObject._cameraMatrix);
 
 	_pSolidColorBrush->SetColor(color);
 	_pSolidColorBrush->SetOpacity(1.f);
-	_pDeviceContext->DrawRectangle(rect, _pSolidColorBrush, width);
+	_pDeviceContext->DrawRectangle(rect, _pSolidColorBrush, width);*/
 }
 
 void Engine::SpriteRenderer::DrawFillRect(const D2D1_RECT_F& rect, const D2D1::ColorF& color, const float& opacity)
 {	
-	_pDeviceContext->SetTransform(transform.worldMatrix * gameObject._cameraMatrix);
+	/*_pDeviceContext->SetTransform(transform.worldMatrix * gameObject._cameraMatrix);
 
 	_pSolidColorBrush->SetColor(color);
 	_pSolidColorBrush->SetOpacity(opacity);
-	_pDeviceContext->FillRectangle(rect, _pSolidColorBrush);
+	_pDeviceContext->FillRectangle(rect, _pSolidColorBrush);*/
 }
 
 void Engine::SpriteRenderer::DrawLine(const D2D1_POINT_2F& point0, const D2D1_POINT_2F& point1, const D2D1::ColorF& color, float strokeWidth)

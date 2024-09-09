@@ -11,21 +11,21 @@ Effect::Effect(const EffectInfo& info)
 
 void Effect::Awake()
 {
-    gameObject.SetRenderGroup((int)_info.renderGroup);
+    gameObject->SetRenderGroup((int)_info.renderGroup);
 
     // Transform
-    transform.SetParent(_info.pTarget);
-    transform.position = _info.position;
-    transform.direction =_info.direction;
-    transform.scale = _info.scale;
-    transform.rotation = Vector3(0.f, 0.f, _info.rotation);
+    transform->SetParent(_info.pTarget);
+    transform->position = _info.position;
+    transform->direction =_info.direction;
+    transform->scale = _info.scale;
+    transform->rotation = Vector3(0.f, 0.f, _info.rotation);
 
     // Component
-    //_pSpriteRenderer = GetComponent<Engine::SpriteRenderer>();
+    _pSpriteRenderer = GetComponent<Engine::SpriteRenderer>();
 
     if (nullptr != _info.textureTag)
     {
-        //_pAnimation = AddComponent<Engine::Animation>(L"Animation");
+        _pAnimation = AddComponent<Engine::Animation>(L"Animation");
         _pSpriteRenderer->BindAnimation(_pAnimation);
         _pAnimation->AddAllFrame(L"Effect", ResourceManager::GetInstance()->FindTexture(_info.textureTag), _info.aniSpeed);
 
@@ -83,7 +83,7 @@ void Effect::Update(const float& deltaTime)
 
     if (_info.pTarget)
     {
-        transform.position = _info.position;
+        transform->position = _info.position;
     }
     else
     {
@@ -94,10 +94,11 @@ void Effect::Update(const float& deltaTime)
 
             if (_info.isFalling)
             {
-                transform.position += Vector3(0.f, 1.f, 0.f) * deltaTime * (_originSpeed - _info.speed);
+                transform->position += Vector3(0.f, 1.f, 0.f) * deltaTime * (_originSpeed - _info.speed);
             }
 
-            transform.position += Vector3(transform.direction * _info.speed * deltaTime);
+            transform->direction += Vector3();
+            transform->position += Vector3(transform->direction * _info.speed * deltaTime);
         }
     }
 }
@@ -110,7 +111,7 @@ void Effect::LateUpdate(const float& deltaTime)
         if (_info.isActiveLife)
         {
             if (_info.life + _info.fadeSpeed <= _elapsed)
-                gameObject.SetDead();
+                gameObject->SetDead();
         }
         else if (_info.isFadeOut)
         {
@@ -123,7 +124,7 @@ void Effect::LateUpdate(const float& deltaTime)
         else
         {
             if (_pAnimation->IsLastFrame())
-                gameObject.SetDead();
+                gameObject->SetDead();
         }                
     }
 
@@ -165,5 +166,5 @@ void Effect::SetFixFrame(int frame)
 
 void Effect::SetRotation(float degree)
 {
-    transform.rotation = Vector3(0.f, 0.f, degree);
+    transform->rotation = Vector3(0.f, 0.f, degree);
 }

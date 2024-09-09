@@ -18,7 +18,10 @@ void Engine::SceneManager::FixedUpdate()
 	for (auto& layer : _layers)
 	{
 		for (auto& object : layer)
-			object->FixedUpdate();
+		{
+			if (object->IsActive())
+				object->FixedUpdate();
+		}
 	}
 }
 
@@ -27,14 +30,12 @@ int Engine::SceneManager::Update(const float& deltaTime)
 	if (nullptr == _pScene || !_isSetUp)
 		return GameState::Error;
 
-	int isEvent = 0;
 	for (auto& layer : _layers)
 	{
 		for (auto& object : layer)
 		{
-			isEvent = object->Update(deltaTime);
-			if (GameState::Game_End == isEvent)
-				return isEvent;
+			if (object->IsActive())
+				object->Update(deltaTime);
 		}
 	}
 
@@ -48,15 +49,12 @@ int Engine::SceneManager::LateUpdate(const float& deltaTime)
 	if (nullptr == _pScene || !_isSetUp)
 		return GameState::Error;
 
-	int isEvent = 0;
-
 	for (auto& layer : _layers)
 	{
 		for (auto& object : layer)
 		{
-			isEvent = object->LateUpdate(deltaTime);
-			if (GameState::Game_End == isEvent)
-				return isEvent;
+			if (object->IsActive())
+				object->LateUpdate(deltaTime);
 		}
 	}
 
@@ -70,7 +68,10 @@ void Engine::SceneManager::AddRenderGroup()
 	for (auto& layer : _layers)
 	{
 		for (auto& object : layer)
-			object->AddRenderer();
+		{
+			if (object->IsActive())
+				object->AddRenderer();
+		}
 	}
 }
 
@@ -82,9 +83,8 @@ void Engine::SceneManager::SetUpLayer(const int layerSize)
 void Engine::SceneManager::ChangeScene(Scene* pScene)
 {
 	assert(nullptr != pScene);
-
-	if (nullptr != _pScene)
-		SafeRelease(_pScene);
+	
+	SafeRelease(_pScene);
 
 	for (auto& layer : _layers)
 	{

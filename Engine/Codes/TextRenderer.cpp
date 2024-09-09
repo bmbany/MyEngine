@@ -24,10 +24,10 @@ void TextRenderer::Render()
 	
 	const D2D1_MATRIX_3X2_F& offset = D2D1::Matrix3x2F::Translation(_offset.x, _offset.y);
 
-	if (_notAffectCamera)
+	/*if (_notAffectCamera)
 		_pDeviceContext->SetTransform(offset * transform.worldMatrix);
 	else
-		_pDeviceContext->SetTransform(offset * transform.worldMatrix * gameObject._cameraMatrix);
+		_pDeviceContext->SetTransform(offset * transform.worldMatrix * gameObject._cameraMatrix);*/
 
 	_pSolidColorBrush->SetColor(_color);
 	_pSolidColorBrush->SetOpacity(1.f);

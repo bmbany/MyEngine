@@ -48,13 +48,8 @@ void Engine::GameManager::Run()
         {
             StartGame();
             FixedUpdateGame(_fixedCount);
-
-            if (GameState::Game_End == UpdateGame())
-                break;
-
-            if (GameState::Game_End == LateUpdateGame())
-                break;
-
+            UpdateGame();
+            LateUpdateGame();
             RenderGame();
         }
     }
@@ -81,29 +76,26 @@ void Engine::GameManager::FixedUpdateGame(int count)
 
 int Engine::GameManager::UpdateGame()
 {
-    int isEvent = 0;
-
     _pTimeMgr->Update();
     float deltaTime = _pTimeMgr->GetDeltaTime();
     _pInputMgr->Update(deltaTime);
     _pEventInvoker->Update(deltaTime);
-    isEvent = _pSceneMgr->Update(deltaTime);
+    _pSceneMgr->Update(deltaTime);
     _pCamera->Update(deltaTime);
 
-    return isEvent;
+    return 0;
 }
 
 int Engine::GameManager::LateUpdateGame()
-{
-    int isEvent = 0;    
+{    
     float deltaTime = _pTimeMgr->GetDeltaTime();
     
-    isEvent = _pSceneMgr->LateUpdate(deltaTime);
+    _pSceneMgr->LateUpdate(deltaTime);
     _pSceneMgr->AddRenderGroup();
     _pCamera->LateUpdate(deltaTime);
     _pSoundMgr->Update(deltaTime);
 
-    return isEvent;
+    return 0;
 }
 
 void Engine::GameManager::RenderGame()
@@ -233,11 +225,6 @@ void Engine::GameManager::SetCameraArea(const Vector3& area)
 Camera* Engine::GameManager::GetCurrCamera()
 {
     return _pCamera;
-}
-
-void Engine::GameManager::RestoreDisplay()
-{
-    _pWinApp->RestoreDisplay();
 }
 
 void Engine::GameManager::LoadSound(const char* filePath)

@@ -7,7 +7,8 @@
 using namespace Engine;
 
 Engine::GameObject::GameObject(const wchar_t* name)
-	: _pGameManager(GameManager::GetInstance())
+	: _pGameManager(GameManager::GetInstance()),
+	transform(_pTransform)
 {
 	SetName(name);
 	_pTransform = AddComponent<Transform>(L"Transform");
@@ -34,7 +35,10 @@ void Engine::GameObject::FixedUpdate()
 	if (!_isFirstInit) return;
 
 	for (auto& component : _components)
-		component->FixedUpdate();
+	{
+		if (component->IsActive())
+			component->FixedUpdate();
+	}
 }
 
 int Engine::GameObject::Update(const float& deltaTime)
@@ -42,7 +46,10 @@ int Engine::GameObject::Update(const float& deltaTime)
 	if (!_isFirstInit) return 0;
 
 	for (auto& component : _components)
-		component->Update(deltaTime);
+	{
+		if (component->IsActive())
+			component->Update(deltaTime);
+	}
 
 	return 0;
 }
@@ -52,7 +59,10 @@ int Engine::GameObject::LateUpdate(const float& deltaTime)
 	if (!_isFirstInit) return 0;
 
 	for (auto& component : _components)
-		component->LateUpdate(deltaTime);
+	{
+		if (component->IsActive())
+			component->LateUpdate(deltaTime);
+	}
 
 	_pTransform->UpdateTransform();
 
@@ -68,42 +78,31 @@ void Engine::GameObject::AddRenderer()
 
 void Engine::GameObject::Render()
 {
-	if (!_isFirstInit || !IsActive()) return;
+	if (!_isFirstInit) return;
 
-	if (_isNotAffectCamera)
-		_cameraMatrix = D2D1::Matrix3x2F::Identity();
+	/*if (_isNotAffectCamera)
+		_cameraMatrix = D2D1::Matrix3x2F::Identity();*/
 
 	for (auto& component : _components)
 	{
 		if (component->IsActive())
 			component->Render();
 	}
-
-#ifdef _DEBUG
-	if (_isDrawCollider)
-	{
-		for (auto& collider : _colliders)
-		{
-			if (collider->IsActive())
-				_pSpriteRenderer->DrawRect(collider->GetColliderRect());
-		}
-	}
-#endif
 }
 
-void Engine::GameObject::OnCollisionEnter(CollisionInfo& info)
+void Engine::GameObject::OnCollisionEnter(CollisionInfo const& info)
 {
 	for (auto& component : _registeredCollisionEventComponents)
 		component->OnCollisionEnter(info);
 }
 
-void Engine::GameObject::OnCollision(CollisionInfo& info)
+void Engine::GameObject::OnCollision(CollisionInfo const& info)
 {
 	for (auto& component : _registeredCollisionEventComponents)
 		component->OnCollision(info);
 }
 
-void Engine::GameObject::OnCollisionExit(CollisionInfo& info)
+void Engine::GameObject::OnCollisionExit(CollisionInfo const& info)
 {
 	for (auto& component : _registeredCollisionEventComponents)
 		component->OnCollisionExit(info);
@@ -113,9 +112,4 @@ void Engine::GameObject::Free()
 {
 	for (auto& component : _components)
 		SafeRelease(component);
-	
-	_components.clear();
-	_components.shrink_to_fit();
-	_colliders.clear();
-	_colliders.shrink_to_fit();
 }

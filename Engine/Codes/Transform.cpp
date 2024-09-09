@@ -4,34 +4,27 @@ using namespace Engine;
 
 Engine::Transform::Transform(const wchar_t* name)
     : Component(name)
+    , scale(_scale)
+    , rotation(_rotation)
+    , position(_position)
+    , direction(_direction)
+    , worldMatrix(_worldMatrix)
 {
-    _transform[Scale] = { 1.f, 1.f, 1.f };
-}
-
-Vector3 Engine::Transform::GetWorldPosition() const
-{
-    Vector3 position{};
-    memcpy(&position, _worldMatrix.m[3], sizeof(Vector3));
-
-    return position;
+    _scale = { 1.f, 1.f, 1.f };
 }
 
 void Engine::Transform::UpdateTransform()
 {
-    XMMATRIX scale = XMMatrixScaling(_transform[Scale].x, _transform[Scale].y, _transform[Scale].z);
-    XMMATRIX rotation = XMMatrixRotationZ(XMConvertToRadians(_transform[Rotation].z));
-    XMMATRIX translation = XMMatrixTranslation(_transform[Position].x, _transform[Position].y, _transform[Position].z);
+    XMMATRIX scale = XMMatrixScaling(_scale.x, _scale.y, _scale.z);
+    XMMATRIX rotationX = XMMatrixRotationX(XMConvertToRadians(_rotation.x));
+    XMMATRIX rotationY = XMMatrixRotationY(XMConvertToRadians(_rotation.y));
+    XMMATRIX rotationZ = XMMatrixRotationZ(XMConvertToRadians(_rotation.z));
+    XMMATRIX translation = XMMatrixTranslation(_position.x, _position.y, _position.z);
 
-    XMMATRIX relative = scale * rotation * translation;
+    _worldMatrix = scale * rotationX * rotationY * rotationZ * translation;
 
     if (nullptr != _pParent)
-        XMStoreFloat4x4(&_worldMatrix, relative * XMLoadFloat4x4(&_pParent->_worldMatrix));
-    else
-        XMStoreFloat4x4(&_worldMatrix, relative);
-
-    memcpy(_d2dWorldMatrix.m[0], _worldMatrix.m[0], sizeof(D2D1_VECTOR_2F));
-    memcpy(_d2dWorldMatrix.m[1], _worldMatrix.m[1], sizeof(D2D1_VECTOR_2F));
-    memcpy(_d2dWorldMatrix.m[2], _worldMatrix.m[3], sizeof(D2D1_VECTOR_2F));
+        _worldMatrix *= _pParent->_worldMatrix;
 }
 
 void Engine::Transform::Free()

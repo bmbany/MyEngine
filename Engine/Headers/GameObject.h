@@ -27,9 +27,11 @@ namespace Engine
 		explicit GameObject(const wchar_t* name);
 	private:
 		virtual ~GameObject();
-	
+
 	public:
-		inline Transform& GetTransform() { return *_pTransform; }
+		Property<Transform*, READ_ONLY> transform;
+
+	public:
 		inline std::vector<Collider*>& GetColliders() { return _colliders; }
 		inline bool IsDead() const { return _isDead; }
 
@@ -63,6 +65,7 @@ namespace Engine
 		{
 			T* pComponent = new T(std::forward<Args>(args)...);
 			pComponent->_pOwner = this;
+			pComponent->_pTransform = _pTransform;
 			pComponent->Awake();
 			_components.push_back(pComponent);
 			_componentData[pComponent->GetName()] = pComponent;
@@ -76,12 +79,9 @@ namespace Engine
 			return pComponent;
 		}
 
-		void OnCollisionEnter(CollisionInfo& info);
-		void OnCollision(CollisionInfo& info);
-		void OnCollisionExit(CollisionInfo& info);
-
-	public:
-		__declspec(property(get = GetTransform)) Transform& transform;
+		void OnCollisionEnter(CollisionInfo const& info);
+		void OnCollision(CollisionInfo const& info);
+		void OnCollisionExit(CollisionInfo const& info);
 
 	private:
 		void Start();
@@ -99,7 +99,7 @@ namespace Engine
 		std::vector<Component*>								_components;
 		std::vector<Collider*>								_colliders;
 		std::vector<ICollisionNotify*>						_registeredCollisionEventComponents;
-		D2D1_MATRIX_3X2_F									_cameraMatrix;
+		Matrix												_cameraMatrix;
 		GameManager*										_pGameManager = nullptr;
 		int													_renderGroup = -1;
 		bool												_isDead = false;
@@ -108,13 +108,8 @@ namespace Engine
 		bool												_isNotAffectCamera = false;
 
 	protected:
-		Transform*						_pTransform	= nullptr;
-		SpriteRenderer*					_pSpriteRenderer = nullptr;
-
-#ifdef _DEBUG
-	public:
-		bool _isDrawCollider = false;
-#endif
+		Transform*											_pTransform	= nullptr;
+		SpriteRenderer*										_pSpriteRenderer = nullptr;
 	};	
 }
 

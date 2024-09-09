@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\Codes\Animation.cpp" />
     <ClCompile Include="..\Codes\BitFlag.cpp" />
+    <ClCompile Include="..\Codes\BoxCollider.cpp" />
     <ClCompile Include="..\Codes\Button.cpp" />
     <ClCompile Include="..\Codes\Camera.cpp" />
     <ClCompile Include="..\Codes\Collider.cpp" />
@@ -45,6 +46,7 @@
     <ClCompile Include="..\Codes\ShaderComposite.cpp" />
     <ClCompile Include="..\Codes\ShaderVignette.cpp" />
     <ClCompile Include="..\Codes\SoundManager.cpp" />
+    <ClCompile Include="..\Codes\SphereCollider.cpp" />
     <ClCompile Include="..\Codes\SpriteRenderer.cpp" />
     <ClCompile Include="..\Codes\State.cpp" />
     <ClCompile Include="..\Codes\TextRenderer.cpp" />
@@ -58,6 +60,7 @@
     <ClInclude Include="..\Headers\Animation.h" />
     <ClInclude Include="..\Headers\Base.h" />
     <ClInclude Include="..\Headers\BitFlag.h" />
+    <ClInclude Include="..\Headers\BoxCollider.h" />
     <ClInclude Include="..\Headers\Button.h" />
     <ClInclude Include="..\Headers\Camera.h" />
     <ClInclude Include="..\Headers\Collider.h" />
@@ -67,7 +70,6 @@
     <ClInclude Include="..\Headers\Engine_Define.h" />
     <ClInclude Include="..\Headers\Engine_Enum.h" />
     <ClInclude Include="..\Headers\Engine_Function.h" />
-    <ClInclude Include="..\Headers\Engine_Macro.h" />
     <ClInclude Include="..\Headers\Engine_Struct.h" />
     <ClInclude Include="..\Headers\Engine_Typedef.h" />
     <ClInclude Include="..\Headers\Engine.h" />
@@ -92,6 +94,7 @@
     <ClInclude Include="..\Headers\ShaderComposite.h" />
     <ClInclude Include="..\Headers\ShaderVignette.h" />
     <ClInclude Include="..\Headers\SoundManager.h" />
+    <ClInclude Include="..\Headers\SphereCollider.h" />
     <ClInclude Include="..\Headers\SpriteRenderer.h" />
     <ClInclude Include="..\Headers\State.h" />
     <ClInclude Include="..\Headers\TextRenderer.h" />

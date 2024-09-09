@@ -9,8 +9,12 @@ namespace Engine
 	{
 		friend class GameObject;
 	protected:
-		explicit Component(const wchar_t* name) { SetName(name); }
+		explicit Component(const wchar_t* name);
 		virtual ~Component() = default;
+
+	public:
+		Property<Transform*, READ_ONLY> transform;
+		Property<GameObject*, READ_ONLY> gameObject;
 
 	public:
 		virtual void Awake() {}
@@ -19,12 +23,6 @@ namespace Engine
 		virtual void Update(const float& deltaTime) {}
 		virtual void LateUpdate(const float& deltaTime) {}
 		virtual void Render() {}
-
-	public:
-		Transform& GetTransform();
-		GameObject& GetOwner();
-		_declspec(property(get = GetTransform)) Transform& transform;
-		_declspec(property(get = GetOwner)) GameObject& gameObject;
 
 	public:
 		template <typename T, typename... Args>
@@ -39,8 +37,9 @@ namespace Engine
 		// Base을(를) 통해 상속됨
 		void Free() = 0;
 
-	protected:
-		GameObject* _pOwner = nullptr;
+	private:
+		GameObject*	_pOwner = nullptr;
+		Transform*	_pTransform = nullptr;
 	};
 }
 

@@ -44,6 +44,10 @@ float GetMouseMove(Input::MouseMove mouseMove)
 {
 	return Engine::InputManager::GetInstance()->GetMouseMove(mouseMove);
 }
+const Vector3& GetMousePosition()
+{
+	return Engine::InputManager::GetInstance()->GetMousePosition();
+}
 bool IsMouseWheel(Input::MouseState mouseState)
 {
 	Engine::InputManager::GetInstance()->IsMouseWheel(mouseState);

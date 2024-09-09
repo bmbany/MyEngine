@@ -10,12 +10,11 @@ Engine::Collider::Collider(const wchar_t* name)
 {
 }
 
-void Engine::Collider::LateUpdate(const float& deltaTime)
+void Engine::Collider::SetActive(bool isActive)
 {
-	_position = XMVector3TransformCoord(_offset, XMLoadFloat4x4(&transform.xmWorldMatrix));
-	_scale = XMVectorAbs(_originScale * transform.scale);
+	__super::SetActive(isActive);
 
-	if (!IsActive())
+	if (false == isActive)
 	{
 		for (auto& collider : _collidedOthers)
 		{
@@ -24,26 +23,14 @@ void Engine::Collider::LateUpdate(const float& deltaTime)
 			info.other = this;
 			collider->EraseOther(this);
 
-			gameObject.OnCollisionExit(info);
-			collider->gameObject.OnCollisionExit(info);
+			gameObject->OnCollisionExit(info);
+			collider->gameObject->OnCollisionExit(info);
 		}
 
+		Engine::GameObject* const& pp = nullptr;
 		_collidedOthers.clear();
 	}
 }
-
-#ifdef _DEBUG
-D2D1_RECT_F Engine::Collider::GetColliderRect() const
-{
-	D2D1_RECT_F rect{};
-	rect.left = _offset.x - _originScale.x * 0.5f;
-	rect.right = _offset.x + _originScale.x * 0.5f;
-	rect.top = _offset.y - _originScale.y * 0.5f;
-	rect.bottom = _offset.y + _originScale.y * 0.5f;
-
-	return rect;
-}
-#endif
 
 void Engine::Collider::InsertOther(Collider* pCollider)
 {
@@ -55,7 +42,7 @@ void Engine::Collider::EraseOther(Collider* pCollider)
 	_collidedOthers.erase(pCollider);
 }
 
-bool Engine::Collider::FindOther(Collider* pCollider)
+bool Engine::Collider::IsPrevColided(Collider* pCollider)
 {
 	auto iter = _collidedOthers.find(pCollider);
 	
@@ -65,7 +52,5 @@ bool Engine::Collider::FindOther(Collider* pCollider)
 void Engine::Collider::Free()
 {
 	for (auto& collider : _collidedOthers)
-	{
 		collider->EraseOther(this);
-	}
 }

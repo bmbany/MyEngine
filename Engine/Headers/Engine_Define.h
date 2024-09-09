@@ -22,6 +22,7 @@
 #include <random>
 #include <iomanip>
 #include <type_traits>
+#include <chrono>
 
 #include <d2d1_1.h>
 #include <d2d1_1helper.h>
@@ -30,7 +31,6 @@
 #include <comdef.h>
 #include <d2d1helper.h>
 #include <dxgi1_4.h>
-#include <DirectXMath.h>
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -42,9 +42,15 @@
 #pragma comment(lib, "windowscodecs.lib")
 #pragma comment(lib, "fmod_vc.lib")
 
+#include <d3d11.h>
+#include <directxtk/SimpleMath.h>
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
+#include <comdef.h>
+#include <d3dcompiler.h>
+#pragma comment (lib, "d3d11.lib")
+#pragma comment(lib,"d3dcompiler.lib")
 
-#include "Engine_Macro.h"
 #include "Engine_Struct.h"
 #include "Engine_Typedef.h"
 #include "Engine_Function.h"

@@ -20,7 +20,7 @@ void Engine::CollisionManager::CheckCollision(std::list<GameObject*>* src, std::
 					if (!dstCollider->IsActive()) continue;
 					if (srcCollider == dstCollider) continue;
 
-					bool isCollide = srcCollider->FindOther(dstCollider);
+					bool isCollide = srcCollider->IsPrevColided(dstCollider);
 
 					CollisionInfo infoSrc, infoDst;
 					infoSrc.itSelf = srcCollider;
@@ -28,7 +28,7 @@ void Engine::CollisionManager::CheckCollision(std::list<GameObject*>* src, std::
 					infoDst.itSelf = dstCollider;
 					infoDst.other = srcCollider;
 
-					if (IsCollision(srcCollider, dstCollider))
+					if (srcCollider->IsCollide(dstCollider))
 					{
 						srcCollider->InsertOther(dstCollider);
 						dstCollider->InsertOther(srcCollider);
@@ -59,17 +59,6 @@ void Engine::CollisionManager::CheckCollision(std::list<GameObject*>* src, std::
 			}
 		}
 	}
-}
-
-bool CollisionManager::IsCollision(Collider* pSrc, Collider* pDst)
-{
-	Vector3 radiusSum = (pSrc->GetScale() + pDst->GetScale()) * 0.5f;
-	Vector3 distance = XMVectorAbs(pDst->GetPosition() - pSrc->GetPosition());
-
-	if (radiusSum.x >= distance.x && radiusSum.y >= distance.y)
-		return true;
-
-	return false;
 }
 
 CollisionManager* CollisionManager::Create()

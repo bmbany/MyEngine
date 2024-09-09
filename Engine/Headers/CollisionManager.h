@@ -16,7 +16,6 @@ namespace Engine
 		void CheckCollision(std::list<GameObject*>* src, std::list<GameObject*>* dst);
 
 	private:
-		bool IsCollision(Collider* pSrc, Collider* pDst);
 		void Free() override;
 
 	public:

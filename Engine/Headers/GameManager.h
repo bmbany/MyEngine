@@ -49,7 +49,6 @@ namespace Engine
 	private:
 		explicit GameManager();
 		virtual ~GameManager() = default;
-		NOCOPY(GameManager)
 
 	public:
 		void Run();
@@ -85,9 +84,6 @@ namespace Engine
 		void SetCameraArea(const Vector3& area);
 		void CameraShake(float shakeTime, float shakePower);
 		Camera* GetCurrCamera();
-
-	public:
-		void RestoreDisplay();
 
 	private:
 		void StartGame();

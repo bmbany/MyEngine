@@ -15,7 +15,6 @@ namespace Engine
 	private:
 		explicit ResourceManager() = default;
 		virtual ~ResourceManager() = default;
-		NOCOPY(ResourceManager)
 
 	public:
 		void SetWICFactory(IWICImagingFactory* pWICFactory);

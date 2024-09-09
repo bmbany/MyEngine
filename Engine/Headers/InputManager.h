@@ -64,7 +64,6 @@ namespace Engine
 	private:
 		explicit InputManager() = default;
 		virtual ~InputManager() = default;
-		NOCOPY(InputManager)
 
 	public:
 		void Update(const float& deltaTime);

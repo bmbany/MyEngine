@@ -18,7 +18,6 @@ namespace Engine
     private:
         explicit SoundManager() = default;
         virtual ~SoundManager() = default;
-        NOCOPY(SoundManager)
 
     public:
         void Update(const float& deltaTime);

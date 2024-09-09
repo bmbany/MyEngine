@@ -11,7 +11,6 @@ namespace Engine
 	private:
 		explicit GraphicManager();
 		virtual ~GraphicManager() = default;
-		NOCOPY(GraphicManager)
 
 	public:
 		ID2D1Factory* GetFactory() const { return _pD2DFactory; }

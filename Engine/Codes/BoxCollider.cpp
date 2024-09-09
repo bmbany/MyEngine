@@ -3,10 +3,11 @@
 using namespace Engine;
 
 Engine::BoxCollider::BoxCollider(const wchar_t* name, const Vector2& scale, const Vector2& offset)
-	: Collider(name),
-	_scale(scale),
-	_offset(offset),
-	scale(_scale)
+	: Collider(name)
+	, _scale(scale)
+	, _offset(offset)
+	, scale(_scale)
+	, offset(_offset)
 {
 }
 

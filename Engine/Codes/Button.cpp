@@ -4,8 +4,8 @@
 using namespace Engine;
 
 Button::Button(const wchar_t* name)
-	: Component(name),
-	_pInputManager(InputManager::GetInstance())
+	: Component(name)
+	, _pInputManager(InputManager::GetInstance())
 {
 }
 

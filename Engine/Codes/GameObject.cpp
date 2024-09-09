@@ -7,8 +7,8 @@
 using namespace Engine;
 
 Engine::GameObject::GameObject(const wchar_t* name)
-	: _pGameManager(GameManager::GetInstance()),
-	transform(_pTransform)
+	: _pGameManager(GameManager::GetInstance())
+	, transform(_pTransform)
 {
 	SetName(name);
 	_pTransform = AddComponent<Transform>(L"Transform");

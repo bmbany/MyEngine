@@ -5,7 +5,8 @@
 using namespace Engine;
 
 Effect::Effect(const EffectInfo& info)
-    : MonoBehavior(L"Effect"), _info(info)
+    : MonoBehavior(L"Effect")
+    , _info(info)
 {
 }
 

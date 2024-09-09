@@ -15,6 +15,7 @@ namespace Engine
 
 	public:
 		Property<Vector2> scale;
+		Property<Vector2> offset;
 
 	private:
 		Vector2 _scale;

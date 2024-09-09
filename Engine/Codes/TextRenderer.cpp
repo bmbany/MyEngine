@@ -4,7 +4,10 @@
 using namespace Engine;
 
 Engine::TextRenderer::TextRenderer(const wchar_t* name, D2D1::ColorF color, float size, DWRITE_FONT_WEIGHT fontWeight)
-	: Component(name), _color(color), _fontSize(size), _fontWeight(fontWeight)
+	: Component(name)
+	, _color(color)
+	, _fontSize(size)
+	, _fontWeight(fontWeight)
 {	
 	GraphicManager* pGraphicMgr = GraphicManager::GetInstance();
 	_pSolidColorBrush = pGraphicMgr->GetSolidColorBrush();

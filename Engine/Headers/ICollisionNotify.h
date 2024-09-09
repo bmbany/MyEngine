@@ -13,8 +13,8 @@ namespace Engine
 	class ICollisionNotify
 	{
 	public:
-		virtual void OnCollisionEnter(CollisionInfo& info) = 0;
-		virtual void OnCollision(CollisionInfo& info) = 0;
-		virtual void OnCollisionExit(CollisionInfo& info) = 0;
+		virtual void OnCollisionEnter(CollisionInfo const& info) = 0;
+		virtual void OnCollision(CollisionInfo const& info) = 0;
+		virtual void OnCollisionExit(CollisionInfo const& info) = 0;
 	};
 }

@@ -46,3 +46,7 @@ void Engine::Button::SetRange(const Vector3& position, float width, float height
 		position.x + width * 0.5f,
 		position.y + height * 0.5f };
 }
+
+void Engine::Button::Free()
+{
+}

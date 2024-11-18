@@ -27,7 +27,7 @@ namespace Engine
         TIMER& operator[](int index) { return _timers[index]; }
 
     private:
-        // CComponent을(를) 통해 상속됨
+        // Component을(를) 통해 상속됨
         void Free() override;
 
     private:

@@ -2,6 +2,7 @@
 
 // 여기에 미리 컴파일하려는 헤더 추가
 #include <iostream>
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <io.h>
 
@@ -24,35 +25,39 @@
 #include <type_traits>
 #include <chrono>
 #include <utility>
-
-#include <d2d1_1.h>
-#include <d2d1_1helper.h>
+#include <typeindex>
+#include <filesystem>
 #include <dwrite.h>
-#include <wincodec.h>
+#include <d3d11.h>
+#include <directxtk/SimpleMath.h>
 #include <comdef.h>
-#include <d2d1helper.h>
-#include <dxgi1_4.h>
+#include <d3dcompiler.h>
+#include <wrl.h>
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <Xinput.h>
 
-#pragma comment(lib, "d2d1.lib")
-#pragma comment(lib, "dxgi.lib")
-#pragma comment(lib, "dwrite.lib")
-#pragma comment(lib, "windowscodecs.lib")
-#pragma comment(lib, "fmod_vc.lib")
+#pragma comment (lib, "d3d11.lib")
+#pragma comment (lib, "d3dcompiler.lib")
+#pragma comment (lib, "dwrite.lib")
+#pragma comment (lib, "fmod_vc.lib")
 
-#include <d3d11.h>
-#include <directxtk/SimpleMath.h>
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
-#include <comdef.h>
-#include <d3dcompiler.h>
-#pragma comment (lib, "d3d11.lib")
-#pragma comment(lib,"d3dcompiler.lib")
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+#include <imgui.h>
+#include <imgui_impl_win32.h>
+#include <imgui_impl_dx11.h>
+
+#include "SpinLock.h"
 
 #include "Engine_Struct.h"
 #include "Engine_Typedef.h"
 #include "Engine_Utility.h"
 #include "Engine_Enum.h"
+#include "Engine_Extern.h"

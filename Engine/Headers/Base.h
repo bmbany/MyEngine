@@ -11,9 +11,9 @@ namespace Engine
 
 	public:
 		void Release()
-		{
+		{			
 			Free();
-			delete this;
+			delete this;			
 		}
 
 		inline virtual void SetActive(bool isActive) { _isActive = isActive; }
@@ -27,7 +27,7 @@ namespace Engine
 		virtual void Free() = 0;
 
 	private:
-		std::wstring	_name;
-		bool			_isActive = true;
+		std::wstring		_name;
+		bool				_isActive = true;
 	};
 }

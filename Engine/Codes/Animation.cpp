@@ -1,176 +1,60 @@
 #include "Animation.h"
-#include "Texture.h"
-#include "ResourceManager.h"
 
-using namespace Engine;
-
-Engine::Animation::Animation(const wchar_t* name)
-	: Component(name)
+void Engine::Animation::LoadAnimation(const aiScene* paiScene)
 {
-}
+	auto AssimpVec3ToSimpleMathVec3 = [](const aiVector3D& in) { return XMVectorSet(in.x, in.y, in.z, 0.f); };
+	auto AssimpQuatToSimpleMathQuat = [](const aiQuaternion& in) { return XMVectorSet(in.x, in.y, in.z, in.w); };
 
-void Engine::Animation::Update(const float& deltaTime)
-{
-	assert(!_animationData.empty());
-	assert(!_animationData[_currAnimation].empty());
-
-	_isLastFrame = false;
-	_isFrameChange = false;
-
-	Frame& currFrame = _animationData[_currAnimation][_currIndex];
-	_currFrame += deltaTime * currFrame.duration;
-
-	if (_isReverse)
+	for (unsigned int i = 0; i < paiScene->mNumAnimations; i++)
 	{
-		if (1.f <= _currFrame)
-		{
-			_currFrame = 0.f;
-			_currIndex--;
-			_isFrameChange = true;
-		}
+		Channel animation;
+		aiAnimation* anim = paiScene->mAnimations[i];
 
-		if (_currIndex < 0)
-		{
-			_isLastFrame = true;
-			_currIndex = (int)_animationData[_currAnimation].size() - 1;
-		}
-	}
-	else
-	{
-		if (1.f <= _currFrame)
-		{
-			_currFrame = 0.f;
-			_currIndex++;
-			_isFrameChange = true;
-		}
+		if (anim->mTicksPerSecond != 0.f)
+			animation.ticksPerSecond = (float)anim->mTicksPerSecond;
 
-		if (_currIndex >= (int)_animationData[_currAnimation].size())
+		animation.duration = float(anim->mDuration * anim->mTicksPerSecond);
+		
+		for (unsigned int j = 0; j < anim->mNumChannels; j++)
 		{
-			_isLastFrame = true;
-			_currIndex = 0;
-		}
-	}	
-}
+			aiNodeAnim* channel = anim->mChannels[j];
+			BoneTransformTrack track;
 
-void Engine::Animation::LateUpdate(const float& deltaTime)
-{
-	auto iter_end = _frameEvents.end();
-
-	for (auto iter = _frameEvents.begin(); iter != iter_end;)
-	{
-		if (iter->activeFrame == _currIndex &&
-			!lstrcmp(iter->animation, _currAnimation))
-		{
-			if (_isFrameChange)
-			{
-				iter->function();
-
-				if (!iter->isRepeat)
-				{
-					iter = _frameEvents.erase(iter);
-					continue;
-				}
+			for (unsigned int k = 0; k < channel->mNumPositionKeys; k++)
+			{				
+				track.positions.emplace_back(
+					(float)channel->mPositionKeys[k].mTime,
+					AssimpVec3ToSimpleMathVec3(channel->mPositionKeys[k].mValue));
 			}
+
+			for (unsigned int k = 0; k < channel->mNumRotationKeys; k++)
+			{
+				track.rotations.emplace_back(
+					(float)channel->mRotationKeys[k].mTime,
+					AssimpQuatToSimpleMathQuat(channel->mRotationKeys[k].mValue));
+			}
+
+			for (unsigned int k = 0; k < channel->mNumScalingKeys; k++)
+			{
+				track.scales.emplace_back(
+					(float)channel->mScalingKeys[k].mTime,
+					AssimpVec3ToSimpleMathVec3(channel->mScalingKeys[k].mValue));
+			}
+
+			animation.boneTransforms[channel->mNodeName.C_Str()] = track;
+			animation.lastTime = max(track.scales.back().first, track.rotations.back().first);
+			animation.lastTime = max(animation.lastTime, track.positions.back().first);
 		}
 
-		++iter;
+		_animations[anim->mName.C_Str()] = animation;
 	}
 }
 
-ID2D1Bitmap* Engine::Animation::GetCurrentImage()
-{	 
-	return _animationData[_currAnimation][_currIndex].pBitmap;
-}
-
-ID2D1Bitmap* Engine::Animation::GetImage(const int index)
+HRESULT Engine::Animation::LoadResource(const std::filesystem::path& filePath)
 {
-	if (0 > index)
-		return _animationData[_currAnimation][0].pBitmap;
-	else
-		return _animationData[_currAnimation][index].pBitmap;
-}
-
-void Engine::Animation::AddFrame(const wchar_t* animationTag, ID2D1Bitmap* pBitmap, const float& speed)
-{
-	_animationData[animationTag].push_back(Frame(pBitmap, 1.f / speed));
-}
-
-void Engine::Animation::AddAllFrame(const wchar_t* animationTag, Texture* pTexture, const float& speed)
-{
-	for (auto& Bitmap : pTexture->_imageData)
-		_animationData[animationTag].push_back(Frame(Bitmap, 1.f / speed));
-}
-
-void Engine::Animation::AddFrameEvent(const FrameEvent& event)
-{
-	_frameEvents.push_back(event);
-}
-
-bool Engine::Animation::IsBetweenFrame(const int first, const int last) const
-{
-	return (first <= _currIndex) && (last >= _currIndex);
-}
-
-bool Engine::Animation::LoadAnimation(const wchar_t* animationTag)
-{
-	ResourceManager* pResourceManager = ResourceManager::GetInstance();
-
-	_animationData = pResourceManager->FindAnimation(animationTag);
-
-	if (_animationData.empty())
-		return false;
-
-	return true;
-}
-
-void Engine::Animation::SetFrame(int frame)
-{
-	_currIndex = frame;
-	_currFrame = 0.f;
-	_isLastFrame = false;
-}
-
-void Engine::Animation::SetLastFrame()
-{
-	if (_isReverse)
-		_currIndex = 0;
-	else
-		_currIndex = (int)_animationData[_currAnimation].size() - 1;
-
-	_currFrame = 0.f;
-}
-
-void Engine::Animation::SetReversePlay(bool isActive)
-{
-	_isReverse = isActive;
-}
-
-bool Engine::Animation::ChangeAnimation(const wchar_t* nextAnimation)
-{
-	if (lstrcmp(_currAnimation, nextAnimation))
-	{
-		_currAnimation = nextAnimation;
-		_currIndex = 0;
-		_isLastFrame = false;
-		_isFrameChange = true;
-		return true;
-	}
-
-	return false;
-}
-
-bool Engine::Animation::IsCurrAnimation(const wchar_t* animation) const
-{
-	return !lstrcmp(_currAnimation, animation);
+	return S_OK;
 }
 
 void Engine::Animation::Free()
 {
-	for (auto& Data : _animationData)
-	{
-		Data.second.clear();
-		Data.second.shrink_to_fit();
-	}
-
-	_animationData.clear();
 }

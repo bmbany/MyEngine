@@ -13,15 +13,15 @@ namespace Engine
 		virtual ~Component() = default;
 
 	public:
-		Property<Transform*, READ_ONLY> transform;
-		Property<GameObject*, READ_ONLY> gameObject;
+		Property<GameObject*, READ_ONLY> gameObject	{ _pOwner };
+		Property<Transform*, READ_ONLY> transform	{ _pTransform };
 
 	public:
 		virtual void Awake() {}
 		virtual void Start() {}
 		virtual void FixedUpdate() {}
-		virtual void Update(const float& deltaTime) {}
-		virtual void LateUpdate(const float& deltaTime) {}
+		virtual void Update(const float& deltaTime) {};
+		virtual void LateUpdate(const float& deltaTime) {};
 		virtual void Render() {}
 
 	public:
@@ -35,11 +35,11 @@ namespace Engine
 		T* GetComponent(const wchar_t* name);
 
 		// Base을(를) 통해 상속됨
-		void Free() = 0;
+		virtual void Free() = 0;
 
 	private:
-		GameObject*	_pOwner = nullptr;
-		Transform*	_pTransform = nullptr;
+		GameObject* _pOwner		{ nullptr };
+		Transform* _pTransform	{ nullptr };
 	};
 }
 

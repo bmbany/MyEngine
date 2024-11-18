@@ -1,23 +1,15 @@
 #pragma once
-#include "Base.h"
+#include "Resource.h"
 
 namespace Engine
 {
-	class Shader : public Base
+	class Shader : public Resource
 	{
 	protected:
 		explicit Shader() = default;
-		virtual ~Shader();
-
-	public:
-		ID2D1Effect* GetEffect() { return _pShaderEffect; }
-		virtual void ComputeShader(ID2D1Bitmap* pBitmap) = 0;
-		virtual void Initialize(ID2D1DeviceContext* pDeviceContext) = 0;
-
-	private:
-		void Free() override;
+		virtual ~Shader() = default;
 
 	protected:
-		ID2D1Effect* _pShaderEffect = nullptr;
+		void CompileShader(std::vector<uint8_t>& output, const std::filesystem::path& filePath, const char* entry, const char* model);
 	};
 }

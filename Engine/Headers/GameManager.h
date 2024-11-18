@@ -4,31 +4,21 @@
 
 namespace Engine
 {
-	// Scene
 	class Layer;
 	class Scene;
-	class SceneManager;
-
-	// System
-	class InputManager;
-	class TimeManager;
-	class GraphicManager;
-
-	// Resource
-	class Texture;
-	class ResourceManager;
-	class SoundManager;
+	class WinApp;
 
 	// Util
 	class GameObject;
 	class Renderer;
-	class Camera;
-	class InputAction;
-	class Transform;
 	class EventInvoker;
 
-	// App
-	class WinApp;
+	// Manager
+	class CameraManager;
+	class SceneManager;
+	class InputManager;
+	class TimeManager;
+	class SoundManager;
 
 	class GameManager : public Base, public Singleton<GameManager>
 	{
@@ -74,43 +64,34 @@ namespace Engine
 		// Renderer
 		bool AddRenderGroup(const int renderGroup, GameObject* pObject);
 		void SetSortGroup(const int sortGroup, bool(*sortFunc)(GameObject*, GameObject*));
-		size_t GetUsedVRAM();
 
-		// Camera
-		void SetCameraTarget(Transform* pTransform);
-		void SetCameraOffset(const Vector3& offset);
-		void SetCameraMaxPosition(const Vector3& position);
-		void SetCameraMinPosition(const Vector3& position);
-		void SetCameraArea(const Vector3& area);
-		void CameraShake(float shakeTime, float shakePower);
-		Camera* GetCurrCamera();
+		// EventInvoker
+		EventInvoker* GetEventInvoker() const;
 
 	private:
 		void StartGame();
-		void FixedUpdateGame(int count);
+		void FixedUpdateGame();
 		int UpdateGame();
 		int LateUpdateGame();
 		void RenderGame();
+
 		// Base을(를) 통해 상속됨
 		void Free() override;
 
 	private:
-		WinApp* _pWinApp = nullptr;
+		// Manager
+		InputManager*		_pInputMgr{ nullptr };
+		TimeManager*		_pTimeMgr{ nullptr };
+		SoundManager*		_pSoundMgr{ nullptr };
+		SceneManager*		_pSceneMgr{ nullptr };
+		CameraManager*		_pCameraMgr{ nullptr };
 
-		InputManager*		_pInputMgr		= nullptr;
-		TimeManager*		_pTimeMgr		= nullptr;
-		ResourceManager*	_pResourceMgr	= nullptr;
-		SoundManager*		_pSoundMgr		= nullptr;
-		GraphicManager*		_pGraphicMgr	= nullptr;
-		SceneManager*		_pSceneMgr		= nullptr;
-
-		Renderer*			_pRenderer		= nullptr;
-		HWND				_hWnd			= nullptr;
-		GameObject*			_pSoundTarget	= nullptr;
-		Camera*				_pCamera		= nullptr;
-		EventInvoker*		_pEventInvoker	= nullptr;
-		float				_elapsed		= 0.f;
-		int					_fixedCount		= 0;
-		bool				_isSceneChange	= false;
+		WinApp*				_pWinApp{ nullptr };
+		Renderer*			_pRenderer{ nullptr };
+		HWND				_hWnd{ nullptr };		
+		EventInvoker*		_pEventInvoker{ nullptr };
+		float				_elapsed{ 0.f };
+		float				_fixed{ 0.f };
+		bool				_isSceneChange{ false };
 	};
 }

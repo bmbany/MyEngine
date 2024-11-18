@@ -11,25 +11,19 @@ namespace Engine
 	class Transform;
 	class Collider;
 	class Component;
-	class SpriteRenderer;
-	class GameManager;
-	
+	class MonoBehavior;
+	class GameManager;	
 	class GameObject : public Base
 	{
-		friend class GameManager;
 		friend class SceneManager;
-		friend class Component;
 		friend class Renderer;
-		friend class SpriteRenderer;
-		friend class TextRenderer;
-		friend class CollisionManager;
 	public:
 		explicit GameObject(const wchar_t* name);
 	private:
 		virtual ~GameObject();
 
 	public:
-		Property<Transform*, READ_ONLY> transform;
+		Property<Transform*, READ_ONLY> transform{ _pTransform };
 
 	public:
 		inline std::vector<Collider*>& GetColliders() { return _colliders; }
@@ -51,7 +45,7 @@ namespace Engine
 		{
 			for (auto& component : _components)
 			{
-				if (typeid(*component) == typeid(T))					
+				if (typeid(*component) == typeid(T))
 					return static_cast<T*>(component);
 			}
 
@@ -67,15 +61,16 @@ namespace Engine
 			pComponent->_pOwner = this;
 			pComponent->_pTransform = _pTransform;
 			pComponent->Awake();
-			_components.push_back(pComponent);
+			
 			_componentData[pComponent->GetName()] = pComponent;
-
-			if constexpr (std::is_base_of_v<ICollisionNotify, T>)
-				_registeredCollisionEventComponents.push_back(pComponent);
+			_components.push_back(pComponent);
 
 			if constexpr (std::is_base_of_v<Collider, T>)
 				_colliders.push_back(pComponent);
 			
+			if constexpr (std::is_base_of_v<ICollisionNotify, T>)
+				_collisionEventComponents.push_back(pComponent);
+
 			return pComponent;
 		}
 
@@ -95,23 +90,20 @@ namespace Engine
 		void Free() override;
 	
 	private:
-		std::unordered_map<std::wstring_view, Component*>	_componentData;
-		std::vector<Component*>								_components;
-		std::vector<Collider*>								_colliders;
-		std::vector<ICollisionNotify*>						_registeredCollisionEventComponents;
-		Matrix												_cameraMatrix;
-		GameManager*										_pGameManager = nullptr;
-		int													_renderGroup = -1;
-		bool												_isDead = false;
-		bool												_dontDestroy = false;
-		bool												_isFirstInit = false;
-		bool												_isNotAffectCamera = false;
+		using ComponentData = std::unordered_map<std::wstring_view, Component*>;
+		ComponentData					_componentData;
+		std::vector<Component*>			_components;
+		std::vector<Collider*>			_colliders;
+		std::vector<ICollisionNotify*>	_collisionEventComponents;
+		GameManager*					_pGameManager{ nullptr };
+		Transform*						_pTransform{ nullptr };
 
-	protected:
-		Transform*											_pTransform	= nullptr;
-		SpriteRenderer*										_pSpriteRenderer = nullptr;
+		int								_renderGroup{ 0 };
+		bool							_isDead{ false };
+		bool							_dontDestroy{ false };
+		bool							_isFirstInit{ false };
+		bool							_isNotAffectCamera{ false };
 	};	
 }
 
 #include "Transform.h"
-#include "SpriteRenderer.h"

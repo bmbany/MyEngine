@@ -56,8 +56,12 @@ WinApp* Engine::WinApp::Create(HINSTANCE hInstance, const TCHAR* appName, int wi
 	return nullptr;
 }
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK WinApp::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam);
+
 	switch (message)
 	{
 	case WM_DESTROY:

@@ -1,9 +1,5 @@
 #pragma once
-#include "GameManager.h"
-#include "InputManager.h"
-#include "SoundManager.h"
-#include "ResourceManager.h"
-#include "TimeManager.h"
+#include "Export_Headers.h"
 
 namespace Engine
 {
@@ -30,22 +26,20 @@ namespace GameObject
 	}
 	#include "Export_Object.inl"
 }
+
 namespace Camera
 {
-	inline void CameraShake(float shakeTime, float shakePower);
-	inline void SetTarget(Engine::Transform* pTarget);
-	inline void SetOffset(const Vector3& offset);
-	inline void SetMaxPosition(const Vector3& position);
-	inline void SetMinPosition(const Vector3& position);
-	inline void SetArea(const Vector3& area);
+	inline Engine::Camera* GetCurrentCamera();
+	inline void SetCurrentCamera(const wchar_t* name);
+	inline void AddCamera(const wchar_t* name, Engine::Camera* pCamera);
 	#include "Export_Camera.inl"
 }
 
 namespace Resource
 {
-	inline Engine::Texture* FindTexture(const wchar_t* textureTag);
 	#include "Export_Resource.inl"
 }
+
 namespace Time
 {
 	inline float GetGlobalDeltaTime();

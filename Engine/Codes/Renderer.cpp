@@ -1,7 +1,7 @@
 #include "Renderer.h"
 #include "GameObject.h"
-#include "Camera.h"
-#include "GameManager.h"
+#include "GraphicManager.h"
+#include "ImGUIManager.h"
 
 using namespace Engine;
 
@@ -10,27 +10,23 @@ void Engine::Renderer::Render_GameObject()
     if (!_isSetUp)
         return;
  
-    _info.pDeviceContext->BeginDraw();
-    _info.pDeviceContext->Clear(D2D1::ColorF(D2D1::ColorF::Gray));
-
-    /*D2D1_MATRIX_3X2_F cameraMatrix = _pCurrCamera->GetCameraMatrix();
-    D2D1InvertMatrix(&cameraMatrix);*/
+    g_pGraphicMgr->BeginDraw();
 
     for (int i = 0; i < _info.size; i++)
     {
-        if (nullptr != _sortInfo[i])
-            _renderGroup[i].sort(_sortInfo[i]);
+        /*if (nullptr != _sortInfo[i])
+            _renderGroup[i].sort(_sortInfo[i]);*/
 
-        for (auto& Object : _renderGroup[i])
+        for (int j = 0; j < _renderGroupIndex[i]; j++)
         {
-            /*memcpy(&Object->_cameraMatrix, &cameraMatrix, sizeof(D2D1_MATRIX_3X2_F));*/
-            Object->Render();
+            _renderGroup[i][j]->Render();
         }
 
-        _renderGroup[i].clear();
+        _renderGroupIndex[i] = 0;
     }
 
-    _info.pDeviceContext->EndDraw();
+    g_pImGUIMgr->Render();
+    g_pGraphicMgr->EndDraw();
 }
 
 bool Engine::Renderer::SetUpRenderer(const RenderGroupInfo& info)
@@ -41,9 +37,12 @@ bool Engine::Renderer::SetUpRenderer(const RenderGroupInfo& info)
     _info = info;
     _renderGroup.resize(_info.size);
     _sortInfo.resize(_info.size);
-    _isSetUp = true;
+    _renderGroupIndex.resize(_info.size);
 
-    _pCurrCamera = GameManager::GetInstance()->GetCurrCamera();
+    for (auto& group : _renderGroup)
+        group.resize(2000);
+
+    _isSetUp = true;
 
     return true;
 }
@@ -58,7 +57,7 @@ bool Engine::Renderer::AddRenderGroup(int group, GameObject* pObject)
     if (nullptr == pObject || pObject->IsDead())
         return false;
 
-    _renderGroup[group].push_back(pObject);
+    _renderGroup[group][_renderGroupIndex[group]++] = pObject;
 
     return true;
 }
@@ -71,11 +70,6 @@ void Engine::Renderer::ResetRenderGroup()
 
 void Engine::Renderer::Free()
 {
-    for (auto& Group : _renderGroup)
-        Group.clear();
-
-    _renderGroup.clear();
-    _renderGroup.shrink_to_fit();
 }
 
 Renderer* Engine::Renderer::Create()

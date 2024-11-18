@@ -1,4 +1,4 @@
- #include "TimeManager.h"
+#include "TimeManager.h"
 
 using namespace Engine;
 
@@ -10,7 +10,7 @@ Engine::TimeManager::TimeManager()
     QueryPerformanceCounter(&_oldTime);
     QueryPerformanceCounter(&_currTime);
 
-    _frequency = float(frequency.QuadPart);
+    _frequency = 1.f / float(frequency.QuadPart);
 }
 
 void Engine::TimeManager::SetSlowTime(float rate)
@@ -31,7 +31,7 @@ void TimeManager::Update()
     _oldTime = _currTime;
     QueryPerformanceCounter(&_currTime);
 
-    _globalDeltaTime = (_currTime.QuadPart - _oldTime.QuadPart) / _frequency ;
+    _globalDeltaTime = (_currTime.QuadPart - _oldTime.QuadPart) * _frequency ;
     _deltaTime = _globalDeltaTime;
 
     if (0.f < _duration)

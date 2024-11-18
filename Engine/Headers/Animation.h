@@ -1,60 +1,40 @@
 #pragma once
-#include "Component.h"
-#include "Texture.h"
-#include "Frame.h"
+#include "Resource.h"
 
 namespace Engine
-{    
-    class Texture;
-    class Animation : public Component
-    {
-        using AnimationData = std::unordered_map<std::wstring, std::vector<Frame>>;
-    public:
-        struct FrameEvent
-        {
-            std::function<void()> function;
-            const wchar_t* animation = nullptr;
-            int activeFrame = 0;
-            bool isRepeat = false;
-        };
-    public:
-        explicit Animation(const wchar_t* name);
-    private:
-        virtual ~Animation() = default;
+{
+	class Animation : public Resource
+	{
+		friend class AnimationController;
 
-    public:
-        void Update(const float& deltaTime) override;
-        void LateUpdate(const float& deltaTime) override;
+		struct BoneTransformTrack
+		{
+			std::vector<std::pair<float, Vector3>> positions;
+			std::vector<std::pair<float, Vector4>> rotations;
+			std::vector<std::pair<float, Vector3>> scales;
+		};
 
-    public:
-        ID2D1Bitmap* GetCurrentImage();
-        ID2D1Bitmap* GetImage(const int index);
-        int GetCurrFrame() const { return _currIndex; }
-        int GetLastFrame() { return (int)_animationData[_currAnimation].size() - 1; }
-        void SetFrame(int frame);
-        void SetLastFrame();
-        void SetReversePlay(bool isActive);
-        bool ChangeAnimation(const wchar_t* nextAnimation);
-        bool IsCurrAnimation(const wchar_t* animation) const;
-        bool IsLastFrame() const { return _isLastFrame; }
-        bool IsBetweenFrame(const int first, const int last) const;
-        bool LoadAnimation(const wchar_t* animationTag);
-        void AddFrame(const wchar_t* animationTag, ID2D1Bitmap* pBitmap, const float& speed);
-        void AddAllFrame(const wchar_t* animationTag, Texture* pTexture, const float& speed);
-        void AddFrameEvent(const FrameEvent& event);
+		struct Channel
+		{
+			std::unordered_map<std::string, BoneTransformTrack> boneTransforms;
+			float duration = 0.0f;
+			float ticksPerSecond = 1.0f;
+			float lastTime = 0.f;
+		};
 
-    private:
-        // Component을(를) 통해 상속됨
-        void Free() override;
-        
-    private:
-        AnimationData           _animationData;
-        std::list<FrameEvent>   _frameEvents;
-        const wchar_t*          _currAnimation = 0;
-        float                   _currFrame = 0.f;
-        int                     _currIndex = 0;
-        bool                    _isFrameChange = false;
-        bool                    _isLastFrame = false;
-        bool                    _isReverse = false;
-    };
+	public:
+		explicit Animation() = default;
+		virtual ~Animation() = default;
+
+	public:
+		void LoadAnimation(const aiScene* paiScene);
+		// Resource을(를) 통해 상속됨
+		HRESULT LoadResource(const std::filesystem::path& filePath) override;
+
+	private:
+		void Free() override;
+
+	private:
+		std::unordered_map<std::string, Channel> _animations;
+	};
 }

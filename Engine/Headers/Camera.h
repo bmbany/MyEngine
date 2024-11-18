@@ -4,53 +4,38 @@
 namespace Engine
 {
 	class Transform;
-	class Timer;
 	class Camera : public Base
 	{
+	public:
+		explicit Camera();
 	private:
-		explicit Camera() = default;
 		virtual ~Camera() = default;
 
 	public:
-		void FixedUpdate();
-		void Update(const float& deltaTime);
-		void LateUpdate(const float& deltaTime);
+		const Matrix& GetViewMatrix() const { return _view; }
+		const Matrix& GetViewTransposMatrix() const { return _viewTranspos; }
+		const Matrix& GetProjectionMatrix() const { return _projection; }
+		const Matrix& GetProjectionTransposMatrix() const { return _projectionTranspos; }
+		Transform* GetTransform() const { return _pTransform; }
 
 	public:
-		void SetTarget(Transform* pTarget) { _pTarget = pTarget; }
-		void SetOffset(const Vector3& offset) { _offset += offset; }
-		void SetMaxPosition(const Vector3& position);
-		void SetMinPosition(const Vector3& position) { _minPosition = position; }
-		void SetArea(const Vector3& area) { _area = area; }
-		void CameraShake(float shakeTime, float shakePower);
-		const Matrix& GetCameraMatrix();
+		virtual void FixedUpdate();
+		virtual void Update(const float& deltaTime);
+		virtual void LateUpdate(const float& deltaTime);
 
 	private:
-		Vector3 GetRandomShakeVector(const float shakePower);
 		// Base을(를) 통해 상속됨
-		bool Initialize();
 		void Free() override;
 
-	public:
-		static Camera* Create();
-
 	private:
-		Vector3		_prevPosition;
-		Vector3		_offset;
-		Vector3		_maxPosition;
-		Vector3		_minPosition;
-		Vector3		_area;
-		Vector3		_shakePosition;
-		Transform*	_pTarget = nullptr;
-		Transform*	_pTransform = nullptr;
-		Timer*		_pTimer = nullptr;
-		float		_shakeTime = 0.f;
-		float		_shakePower = 0.f;
-		float		_originShakePower = 0.f;
+		Matrix _view;
+		Matrix _viewTranspos;
+		Matrix _projection;
+		Matrix _projectionTranspos;
 
-		float _shakeElapsedTime = 0.0f;
-		Vector3 _previousShakePosition = { 0.f, 0.f, 0.f };
-		Vector3 _currentShakePosition = { 0.f, 0.f, 0.f };
-		bool _returnToOriginal = false;
+		Transform* _pTransform{ nullptr };
+		float _fovY{ 0.f };
+		float _near{ 0.f };
+		float _far{ 0.f };
 	};
 }

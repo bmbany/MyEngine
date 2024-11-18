@@ -29,6 +29,10 @@ namespace Engine
 		void SetCancel(std::function<void()> function) { _cancel = function; };
 
 	private:
+		// Component을(를) 통해 상속됨
+		void Free() override;
+
+	private:
 		std::function<void()>	_onPressed;
 		std::function<void()>	_onHover;
 		std::function<void()>	_cancel;

@@ -1,28 +1,23 @@
 #pragma once
-#include "Base.h"
+#include "Resource.h"
 
 namespace Engine
 {
-    class Texture : public Base
+    class Texture : public Resource
     {
-        friend class Animation;
-        friend class ResourceManager;
-    private:
-        explicit Texture() = default;
-        virtual ~Texture() = default;
- 
     public:
-        ID2D1Bitmap* GetImage(int index) const { return _imageData[index]; }
-        ID2D1Bitmap* operator[](int index) const { return _imageData[index]; }
-        void AddIamge(ID2D1Bitmap* pImage);
+        explicit Texture() = default;
+        virtual ~Texture();
+
+    public:
+        HRESULT LoadResource(const std::filesystem::path& filePath) override;
+        ID3D11ShaderResourceView* Get() const { return _pTexture; }
 
     private:
+        // Resource을(를) 통해 상속됨
         void Free() override;
 
-    public:
-        static Texture* Create();
-
     private:
-        std::vector<ID2D1Bitmap*> _imageData;
+        ID3D11ShaderResourceView* _pTexture = nullptr;
     };
 }

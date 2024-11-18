@@ -17,6 +17,7 @@ namespace Engine
 		virtual bool IsCollide(Collider* other) = 0;
 
 	private:
+		// Component을(를) 통해 상속됨
 		void Free() override;
 
 	protected:

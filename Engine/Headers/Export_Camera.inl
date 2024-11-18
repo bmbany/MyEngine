@@ -1,29 +1,16 @@
 #pragma once
 
-
-// Camera
-void CameraShake(float shakeTime, float shakePower)
+Engine::Camera* GetCurrentCamera()
 {
-	Engine::GameManager::GetInstance()->CameraShake(shakeTime, shakePower);
+	return Engine::CameraManager::GetInstance()->GetCurrentCamera();
 }
 
-void SetTarget(Engine::Transform* pTarget)
+void SetCurrentCamera(const wchar_t* name)
 {
-	Engine::GameManager::GetInstance()->SetCameraTarget(pTarget);
+	Engine::CameraManager::GetInstance()->SetCurrentCamera(name);
 }
-void SetOffset(const Vector3& offset)
+
+void AddCamera(const wchar_t* name, Engine::Camera* pCamera)
 {
-	Engine::GameManager::GetInstance()->SetCameraOffset(offset);
-}
-void SetMaxPosition(const Vector3& position)
-{
-	Engine::GameManager::GetInstance()->SetCameraMaxPosition(position);
-}
-void SetMinPosition(const Vector3& position)
-{
-	Engine::GameManager::GetInstance()->SetCameraMinPosition(position);
-}
-void SetArea(const Vector3& area)
-{
-	Engine::GameManager::GetInstance()->SetCameraArea(area);
+	Engine::CameraManager::GetInstance()->AddCamera(name, pCamera);
 }

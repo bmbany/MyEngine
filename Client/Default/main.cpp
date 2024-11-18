@@ -23,9 +23,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	GameObject::Instantiate<Engine::GameObject>(Vector3(), Vector3(), L"name");
+#ifdef _DEBUG
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif	
 
 	atexit(CheckMemoryLeaks);
+
+#ifdef _DEBUG
+	_ASSERT(_CrtCheckMemory());
+#endif
 
 	return EXIT_SUCCESS;
 }

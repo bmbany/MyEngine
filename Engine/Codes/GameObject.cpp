@@ -8,11 +8,9 @@ using namespace Engine;
 
 Engine::GameObject::GameObject(const wchar_t* name)
 	: _pGameManager(GameManager::GetInstance())
-	, transform(_pTransform)
 {
 	SetName(name);
 	_pTransform = AddComponent<Transform>(L"Transform");
-	_pSpriteRenderer = AddComponent<SpriteRenderer>(L"SpriteRenderer");
 }
 
 Engine::GameObject::~GameObject()
@@ -92,19 +90,19 @@ void Engine::GameObject::Render()
 
 void Engine::GameObject::OnCollisionEnter(CollisionInfo const& info)
 {
-	for (auto& component : _registeredCollisionEventComponents)
+	for (auto& component : _collisionEventComponents)
 		component->OnCollisionEnter(info);
 }
 
 void Engine::GameObject::OnCollision(CollisionInfo const& info)
 {
-	for (auto& component : _registeredCollisionEventComponents)
+	for (auto& component : _collisionEventComponents)
 		component->OnCollision(info);
 }
 
 void Engine::GameObject::OnCollisionExit(CollisionInfo const& info)
 {
-	for (auto& component : _registeredCollisionEventComponents)
+	for (auto& component : _collisionEventComponents)
 		component->OnCollisionExit(info);
 }
 

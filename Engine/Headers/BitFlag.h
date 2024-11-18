@@ -11,16 +11,17 @@ namespace Engine
 		virtual ~BitFlag() = default;
 
 	public:
-		void OnFlag(const _ullong& flag) { _flag |= flag; }
-		void OffFlag(const _ullong& flag) { _flag &= ~flag; }
-		void ToggleFlag(const _ullong& flag) { _flag ^= flag; }
-		_ullong CheckFlag(const _ullong& flag) const { return _flag & flag; }
-		void ResetFlag() { _flag = 0; }
-		void SetFlag(const _ullong& flag) { _flag = flag; }
-		_ullong GetCurrentFlag() const { return _flag; }
+		inline void OnFlag(const _ullong& flag) { _flag |= flag; }
+		inline void OffFlag(const _ullong& flag) { _flag &= ~flag; }
+		inline void ToggleFlag(const _ullong& flag) { _flag ^= flag; }
+		inline _ullong CheckFlag(const _ullong& flag) const { return _flag & flag; }
+		inline void ResetFlag() { _flag = 0; }
+		inline void SetFlag(const _ullong& flag) { _flag = flag; }
+		inline _ullong GetCurrentFlag() const { return _flag; }
 
 	private:
-		virtual void Free() override;
+		// Component을(를) 통해 상속됨
+		void Free() override;
 
 	private:
 		_ullong _flag = 0;

@@ -1,7 +1,6 @@
 #include "Collider.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "SpriteRenderer.h"
 
 using namespace Engine;
 

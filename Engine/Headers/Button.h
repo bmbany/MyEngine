@@ -6,6 +6,8 @@ namespace Engine
 	class InputManager;
 	class Button final : public Component
 	{
+		REGISTER_COMPONENT(Button);
+
 	private:
 		struct RectF
 		{

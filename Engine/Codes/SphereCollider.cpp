@@ -1,10 +1,15 @@
 #include "SphereCollider.h"
 
-Engine::SphereCollider::SphereCollider(const wchar_t* name, const float radius)
+using namespace Engine;
+
+Engine::SphereCollider::SphereCollider(const wchar_t* name)
 	: Collider(name)
-	, _radius(radius)
-	, radius(_radius)
 {
+}
+
+void Engine::SphereCollider::Initialize(const float radius)
+{
+	_radius = radius;
 }
 
 bool Engine::SphereCollider::IsCollide(Collider* other)

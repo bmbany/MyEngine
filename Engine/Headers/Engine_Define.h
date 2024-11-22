@@ -33,6 +33,9 @@
 #include <comdef.h>
 #include <d3dcompiler.h>
 #include <wrl.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -46,18 +49,11 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
-#include <imgui.h>
-#include <imgui_impl_win32.h>
-#include <imgui_impl_dx11.h>
-
-#include "SpinLock.h"
-
 #include "Engine_Struct.h"
 #include "Engine_Typedef.h"
 #include "Engine_Utility.h"
 #include "Engine_Enum.h"
 #include "Engine_Extern.h"
+
+#include "ComponentFactory.h"
+#include "Reflection.h"

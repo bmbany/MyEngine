@@ -38,7 +38,7 @@ void Engine::Camera::Update(const float& deltaTime)
 		}
 	}
 
-	/*if (pInputManager->IsKeyPress(DIK_W))
+	if (pInputManager->IsKeyPress(DIK_W))
 	{
 		_pTransform->position += -_pTransform->worldMatrix->Forward() * speed * deltaTime;
 	}
@@ -61,7 +61,7 @@ void Engine::Camera::Update(const float& deltaTime)
 	if (pInputManager->IsKeyPress(DIK_E))
 	{
 		_pTransform->position += Vector3(0.f, -1.f, 0.f) * speed * deltaTime;
-	}*/
+	}
 }
 
 void Engine::Camera::LateUpdate(const float& deltaTime)

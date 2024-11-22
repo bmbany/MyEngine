@@ -4,7 +4,7 @@
 namespace Engine
 {
     class Transform : public Component
-    {
+    {        
     public:
         explicit Transform(const wchar_t* name);
     private:

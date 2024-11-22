@@ -2,7 +2,6 @@
 #include "Scene.h"
 #include "GameObject.h"
 
-#include "ImGUIManager.h"
 #include "ThreadPool.h"
 
 #include "InputManager.h"
@@ -135,11 +134,6 @@ int Engine::SceneManager::LateUpdate(const float& deltaTime)
 
 	_pScene->LateUpdate(deltaTime);
 
-	if (InputManager::GetInstance()->IsKeyDown(DIK_P))
-	{
-		_layers[0].back()->SetDead();
-	}
-
 	return 0;
 }
 
@@ -158,23 +152,6 @@ void Engine::SceneManager::AddRenderGroup()
 void Engine::SceneManager::SetUpLayer(const int layerSize)
 {
 	_layers.resize(layerSize);	
-
-	g_pImGUIMgr->AddFunction([]()
-		{
-			ImGui::Begin("Object", &show, ImGuiWindowFlags_AlwaysAutoResize);
-			ImGui::Text("Object Count : %d", g_size);
-			
-			auto vram = g_pGraphicMgr->GetUsedVRAM();
-
-			ImGui::Text("Local: %d\nNonLocal: %d", vram.first, vram.second);
-
-			HANDLE hProcess = GetCurrentProcess();
-			PROCESS_MEMORY_COUNTERS_EX pmc;
-			pmc.cb = sizeof(PROCESS_MEMORY_COUNTERS_EX);
-			GetProcessMemoryInfo(hProcess, (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
-			ImGui::Text("PrivateUsage: %d\nWorkingSetSize: %d\nPagefileUsage: %d", (pmc.PrivateUsage) / 1024 / 1024, (pmc.WorkingSetSize) / 1024 / 1024, (pmc.PagefileUsage) / 1024 / 1024);
-			ImGui::End();
-		});
 }
 
 void Engine::SceneManager::ChangeScene(Scene* pScene)

@@ -7,9 +7,10 @@ namespace Engine
 	class Skeleton;
 	class Transform;
 	struct Bone;
+
 	class AnimationController : public Component
 	{
-		friend class SkinnedMeshRenderer;
+		REGISTER_COMPONENT(AnimationController);
 
 		enum Type { Upper, Lower, End };
 		struct Controller
@@ -28,7 +29,7 @@ namespace Engine
 		};
 
 	public:
-		explicit AnimationController(const wchar_t* name, const wchar_t* filePath);
+		explicit AnimationController(const wchar_t* name);
 	private:
 		virtual ~AnimationController() = default;
 
@@ -36,10 +37,10 @@ namespace Engine
 		const std::vector<Matrix>& GetAnimationTransform() const { return _animationTransforms; }
 
 	public:
-		void Start() override;
 		void Update(const float& deltaTime) override;
 
 	public:
+		void Intialize(const wchar_t* filePath, Skeleton* pSkeleton);
 		void ChangeAnimationData(const wchar_t* filePath);
 		void ChangeAnimation(const char* animation);
 		bool IsLastFrame(float interval) const;
@@ -77,6 +78,6 @@ namespace Engine
 		Controller _controller[End];
 		Controller _prevController[End];
 		std::shared_ptr<Animation> _animation;
-		Skeleton* _pSkeleton{ nullptr };
-	};
+		Skeleton* _pSkeleton{ nullptr };		
+	};	
 }

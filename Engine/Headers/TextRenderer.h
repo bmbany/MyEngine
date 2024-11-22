@@ -5,6 +5,8 @@ namespace Engine
 {
 	class TextRenderer : public Component
 	{
+		//REGISTER_COMPONENT(TextRenderer);
+
 	public:
 		explicit TextRenderer(const wchar_t* name, DWORD color, float size = 25.f, DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL);
 	private:

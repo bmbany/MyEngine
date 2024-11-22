@@ -4,17 +4,9 @@
 
 using namespace Engine;
 
-Engine::AnimationController::AnimationController(const wchar_t* name, const wchar_t* filePath)
+Engine::AnimationController::AnimationController(const wchar_t* name)
 	: Component(name)
-{
-	_animation = g_pResourceMgr->LoadResource<Animation>(filePath);
-	_animationTransforms.resize(128);
-}
-
-void Engine::AnimationController::Start()
-{
-	BoneMasking(_pSkeleton->_rootBone, Lower);
-	BoneMasking(_pSkeleton->_spine, Upper);
+{	
 }
 
 void Engine::AnimationController::Update(const float& deltaTime)
@@ -80,6 +72,16 @@ void Engine::AnimationController::Update(const float& deltaTime)
 	{
 		_pTransform->_position += XMVector3TransformCoord(deltaPosition, XMMatrixRotationY(_pTransform->_rotation.y + XM_PIDIV2));
 	}*/
+}
+
+void Engine::AnimationController::Intialize(const wchar_t* filePath, Skeleton* pSkeleton)
+{
+	_animation = g_pResourceMgr->LoadResource<Animation>(filePath);
+	_animationTransforms.resize(128);
+
+	_pSkeleton = pSkeleton;
+	BoneMasking(_pSkeleton->_rootBone, Lower);
+	BoneMasking(_pSkeleton->_spine, Upper);
 }
 
 void Engine::AnimationController::ChangeAnimationData(const wchar_t* filePath)

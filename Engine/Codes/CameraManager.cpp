@@ -5,23 +5,26 @@ using namespace Engine;
 
 void Engine::CameraManager::FixedUpdate()
 {
+	_ASSERT(_pCurrentCamera);
 	_pCurrentCamera->FixedUpdate();
 }
 
 void Engine::CameraManager::Update(const float& deltaTime)
 {
+	_ASSERT(_pCurrentCamera);
 	_pCurrentCamera->Update(deltaTime);
 }
 
 void Engine::CameraManager::LateUpdate(const float& deltaTime)
 {
+	_ASSERT(_pCurrentCamera);
 	_pCurrentCamera->LateUpdate(deltaTime);
 }
 
 void Engine::CameraManager::SetCurrentCamera(const wchar_t* name)
 {
 	auto iter = _cameras.find(name);
-	assert(iter != _cameras.end());
+	_ASSERT(iter != _cameras.end());
 
 	if (iter != _cameras.end())
 	{
@@ -32,7 +35,7 @@ void Engine::CameraManager::SetCurrentCamera(const wchar_t* name)
 void Engine::CameraManager::AddCamera(const wchar_t* name, Camera* pCamera)
 {
 	auto iter = _cameras.find(name);
-	assert(iter == _cameras.end());
+	_ASSERT(iter == _cameras.end());
 
 	if (iter == _cameras.end())
 	{

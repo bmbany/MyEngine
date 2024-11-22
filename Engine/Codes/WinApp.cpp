@@ -1,10 +1,10 @@
 #include "WinApp.h"
+#ifdef _DEBUG
+#undef new
+#endif
+#include "../../Reference/inc/imgui.h"
 
 using namespace Engine;
-
-void Engine::WinApp::Free()
-{
-}
 
 bool WinApp::Initialize(HINSTANCE hInstance, const TCHAR* appName, int width, int height, bool isFullScreen)
 {
@@ -43,6 +43,10 @@ bool WinApp::Initialize(HINSTANCE hInstance, const TCHAR* appName, int width, in
 	UpdateWindow(_hWnd);
 
 	return true;
+}
+
+void Engine::WinApp::Free()
+{
 }
 
 WinApp* Engine::WinApp::Create(HINSTANCE hInstance, const TCHAR* appName, int width, int height, bool isFullScreen)

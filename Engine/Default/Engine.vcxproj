@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Util\SpinLock.cpp" />
     <ClCompile Include="..\Codes\Animation.cpp" />
     <ClCompile Include="..\Codes\AnimationController.cpp" />
     <ClCompile Include="..\Codes\BitFlag.cpp" />
@@ -30,6 +31,8 @@
     <ClCompile Include="..\Codes\CollisionManager.cpp" />
     <ClCompile Include="..\Codes\Component.cpp" />
     <ClCompile Include="..\Codes\ConstantBuffer.cpp" />
+    <ClCompile Include="..\Codes\EventDispatcher.cpp" />
+    <ClCompile Include="..\Codes\EventListener.cpp" />
     <ClCompile Include="..\Codes\FiniteStateMachine.cpp" />
     <ClCompile Include="..\Codes\GameManager.cpp" />
     <ClCompile Include="..\Codes\GameObject.cpp" />
@@ -53,7 +56,6 @@
     <ClCompile Include="..\Codes\SkinnedMeshRenderer.cpp" />
     <ClCompile Include="..\Codes\SoundManager.cpp" />
     <ClCompile Include="..\Codes\SphereCollider.cpp" />
-    <ClCompile Include="..\Codes\SpinLock.cpp" />
     <ClCompile Include="..\Codes\State.cpp" />
     <ClCompile Include="..\Codes\TextRenderer.cpp" />
     <ClCompile Include="..\Codes\Texture.cpp" />
@@ -66,6 +68,8 @@
     <ClCompile Include="..\Codes\WinApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Util\Property.h" />
+    <ClInclude Include="..\..\Util\SpinLock.h" />
     <ClInclude Include="..\Headers\Animation.h" />
     <ClInclude Include="..\Headers\AnimationController.h" />
     <ClInclude Include="..\Headers\Base.h" />
@@ -77,6 +81,7 @@
     <ClInclude Include="..\Headers\Collider.h" />
     <ClInclude Include="..\Headers\CollisionManager.h" />
     <ClInclude Include="..\Headers\Component.h" />
+    <ClInclude Include="..\Headers\ComponentFactory.h" />
     <ClInclude Include="..\Headers\ConstantBuffer.h" />
     <ClInclude Include="..\Headers\Engine_Define.h" />
     <ClInclude Include="..\Headers\Engine_Enum.h" />
@@ -85,12 +90,15 @@
     <ClInclude Include="..\Headers\Engine_Struct.h" />
     <ClInclude Include="..\Headers\Engine_Typedef.h" />
     <ClInclude Include="..\Headers\Engine.h" />
+    <ClInclude Include="..\Headers\EventDispatcher.h" />
+    <ClInclude Include="..\Headers\EventListener.h" />
     <ClInclude Include="..\Headers\Export_Headers.h" />
     <ClInclude Include="..\Headers\FiniteStateMachine.h" />
     <ClInclude Include="..\Headers\GameManager.h" />
     <ClInclude Include="..\Headers\GameObject.h" />
     <ClInclude Include="..\Headers\GraphicManager.h" />
     <ClInclude Include="..\Headers\ICollisionNotify.h" />
+    <ClInclude Include="..\Headers\EventDelegater.h" />
     <ClInclude Include="..\Headers\ImGUIManager.h" />
     <ClInclude Include="..\Headers\InputManager.h" />
     <ClInclude Include="..\Headers\EventInvoker.h" />
@@ -112,8 +120,8 @@
     <ClInclude Include="..\Headers\SkinnedMeshRenderer.h" />
     <ClInclude Include="..\Headers\SoundManager.h" />
     <ClInclude Include="..\Headers\SphereCollider.h" />
-    <ClInclude Include="..\Headers\SpinLock.h" />
     <ClInclude Include="..\Headers\State.h" />
+    <ClInclude Include="..\Headers\Reflection.h" />
     <ClInclude Include="..\Headers\TextRenderer.h" />
     <ClInclude Include="..\Headers\Texture.h" />
     <ClInclude Include="..\Headers\ThreadPool.h" />
@@ -206,16 +214,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>../Reference/lib/Debug/</OutDir>
+    <OutDir>$(SolutionDir)Reference/lib/Debug/</OutDir>
     <IncludePath>$(IncludePath)</IncludePath>
-    <ExternalIncludePath>../Reference/inc/;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>../Reference/lib;../Reference/lib/Debug/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Reference/lib/;$(SolutionDir)Reference/lib/Debug/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>../Reference/lib/Release/</OutDir>
+    <OutDir>$(SolutionDir)Reference/lib/Release/</OutDir>
     <IncludePath>$(IncludePath)</IncludePath>
-    <ExternalIncludePath>../Reference/inc/;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>../Reference/lib;../Reference/lib/Release/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Reference/lib/;$(SolutionDir)Reference/lib/Release/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -262,8 +268,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Engine/Codes/;$(SolutionDir)/Engine/Headers/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Headers/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -287,8 +294,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Engine/Codes/;$(SolutionDir)/Engine/Headers/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Headers/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>

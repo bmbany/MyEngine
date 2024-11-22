@@ -12,27 +12,26 @@
 
 using namespace Engine;
 
-Engine::SkinnedMeshRenderer::SkinnedMeshRenderer(const wchar_t* name, const wchar_t* modelFilePath)
+Engine::SkinnedMeshRenderer::SkinnedMeshRenderer(const wchar_t* name)
 	: Component(name)
 	, _pCameraMgr(CameraManager::GetInstance())
 {
-	_pDeviceContext = g_pGraphicMgr->GetDeviceContext();
+	_pDeviceContext = g_pGraphicMgr->GetDeviceContext();	
+}
+
+void Engine::SkinnedMeshRenderer::Initialize(const wchar_t* modelFilePath)
+{
 	_model = g_pResourceMgr->LoadResource<Model>(modelFilePath);
 	assert(_model.get());
 
 	for (auto& mesh : _model->_meshs)
 	{
-		mesh->_pMaterial->BindVertexShader(L"../Resources/Shader/MeshVS_Skinned.cso");
-		mesh->_pMaterial->BindPixelShader(L"../Resources/Shader/MeshPS.cso");
+		mesh->_pMaterial->BindVertexShader(L"../../Resources/Shader/MeshVS_Skinned.cso");
+		mesh->_pMaterial->BindPixelShader(L"../../Resources/Shader/MeshPS.cso");
 	}
 
-	_modelFilePath = modelFilePath;
-}
-
-void Engine::SkinnedMeshRenderer::Awake()
-{
-	_pAnimationController = AddComponent<AnimationController>(L"AnimationController", _modelFilePath);
-	_pAnimationController->_pSkeleton = _model->_pSkeleton;
+	_pAnimationController = AddComponent<AnimationController>(L"AnimationController");
+	_pAnimationController->Intialize(modelFilePath, _model->_pSkeleton);
 }
 
 void Engine::SkinnedMeshRenderer::Render()

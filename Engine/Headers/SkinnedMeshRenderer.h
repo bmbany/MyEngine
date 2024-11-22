@@ -9,14 +9,16 @@ namespace Engine
 	class Texture;
 	class SkinnedMeshRenderer : public Component
 	{
+		REGISTER_COMPONENT(SkinnedMeshRenderer);
+
 	public:
-		explicit SkinnedMeshRenderer(const wchar_t* name, const wchar_t* modelFilePath);
+		explicit SkinnedMeshRenderer(const wchar_t* name);
 
 	private:
 		virtual ~SkinnedMeshRenderer() = default;
 
 	public:
-		void Awake() override;
+		void Initialize(const wchar_t* modelFilePath);
 		void Render() override;
 
 	public:
@@ -31,6 +33,5 @@ namespace Engine
 		std::shared_ptr<Model>	_model;
 		AnimationController*	_pAnimationController{ nullptr };
 		ID3D11DeviceContext*	_pDeviceContext{ nullptr };
-		const wchar_t*			_modelFilePath = nullptr;
 	};
 }

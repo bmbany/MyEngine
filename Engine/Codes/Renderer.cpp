@@ -11,6 +11,7 @@ void Engine::Renderer::Render_GameObject()
         return;
  
     g_pGraphicMgr->BeginDraw();
+    g_pGraphicMgr->SetRenderTargetView(1);
 
     for (int i = 0; i < _info.size; i++)
     {
@@ -25,6 +26,7 @@ void Engine::Renderer::Render_GameObject()
         _renderGroupIndex[i] = 0;
     }
 
+    g_pGraphicMgr->SetRenderTargetView(0);
     g_pImGUIMgr->Render();
     g_pGraphicMgr->EndDraw();
 }

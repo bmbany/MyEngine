@@ -5,6 +5,8 @@ namespace Engine
 {
     class Timer : public Component
     {
+        //REGISTER_COMPONENT(Timer);
+
     private:
         typedef struct TimerInfo
         {

@@ -8,15 +8,17 @@ namespace Engine
 	{
 	public:
 		explicit Camera();
-	private:
+	protected:
 		virtual ~Camera() = default;
+
+	public:
+		Property<Transform*, READ_ONLY> transform{ _pTransform };
 
 	public:
 		const Matrix& GetViewMatrix() const { return _view; }
 		const Matrix& GetViewTransposMatrix() const { return _viewTranspos; }
 		const Matrix& GetProjectionMatrix() const { return _projection; }
 		const Matrix& GetProjectionTransposMatrix() const { return _projectionTranspos; }
-		Transform* GetTransform() const { return _pTransform; }
 
 	public:
 		virtual void FixedUpdate();
@@ -27,7 +29,7 @@ namespace Engine
 		// Base을(를) 통해 상속됨
 		void Free() override;
 
-	private:
+	protected:
 		Matrix _view;
 		Matrix _viewTranspos;
 		Matrix _projection;

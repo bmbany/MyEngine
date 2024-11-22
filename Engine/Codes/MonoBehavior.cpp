@@ -14,6 +14,8 @@ Engine::MonoBehavior::MonoBehavior(const wchar_t* name)
 void Engine::MonoBehavior::Invoke(const wchar_t* name, const std::function<void()>& function, float delay)
 {
 	_pEventInvoker->Invoke(name, function, delay);
+
+	std::function<Component* (GameObject*)> aa = [](GameObject* pp) { return pp->AddComponent<Transform>(L""); };
 }
 
 void Engine::MonoBehavior::InvokeRepeating(const wchar_t* name, const std::function<void()>& function, float delay, float repeatDelay)

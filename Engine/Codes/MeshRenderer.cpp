@@ -11,11 +11,15 @@
 
 using namespace Engine;
 
-Engine::MeshRenderer::MeshRenderer(const wchar_t* name, const wchar_t* modelFilePath)
+Engine::MeshRenderer::MeshRenderer(const wchar_t* name)
 	: Component(name)
 	, _pCameraMgr(CameraManager::GetInstance())
 {
-	_pDeviceContext = g_pGraphicMgr->GetDeviceContext();
+	_pDeviceContext = g_pGraphicMgr->GetDeviceContext();	
+}
+
+void Engine::MeshRenderer::Initialize(const wchar_t* modelFilePath)
+{
 	_model = g_pResourceMgr->LoadResource<Model>(modelFilePath);
 	assert(_model.get());
 
@@ -24,8 +28,6 @@ Engine::MeshRenderer::MeshRenderer(const wchar_t* name, const wchar_t* modelFile
 		mesh->_pMaterial->BindVertexShader(L"../Resources/Shader/MeshVS.cso");
 		mesh->_pMaterial->BindPixelShader(L"../Resources/Shader/MeshPS.cso");
 	}
-
-	_modelFilePath = modelFilePath;
 }
 
 void Engine::MeshRenderer::Render()

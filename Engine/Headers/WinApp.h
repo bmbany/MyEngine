@@ -25,12 +25,12 @@ namespace Engine
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	private:
-		HINSTANCE	_hInstance = nullptr;
-		HWND		_hWnd = nullptr;
-		int			_width = 0;
-		int			_height = 0;		
+		HINSTANCE	_hInstance{ nullptr };
+		HWND		_hWnd{ nullptr };
+		int			_width{ 0 };
+		int			_height{ 0 };
 
-		const int	_startLeft = 100;
-		const int	_startTop = 100;
+		const int	_startLeft{ 100 };
+		const int	_startTop{ 100 };
 	};
 }

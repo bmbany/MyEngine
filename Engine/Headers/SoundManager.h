@@ -1,6 +1,6 @@
 #pragma once
 #include "Base.h"
-#include <fmod.hpp>
+#include "../../Reference/inc/fmod.hpp"
 
 namespace Engine
 {

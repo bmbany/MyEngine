@@ -5,11 +5,6 @@ namespace Engine
 {
 	class Mesh;
 	class Skeleton;
-	class Animator;
-
-	class VertexShader;
-	class PixelShader;
-	class Transform;
 	class Animation;
 	class Texture;
 	class Model : public Resource

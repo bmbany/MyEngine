@@ -6,6 +6,8 @@ namespace Engine
 	class Transform;
 	class Rigidbody2D : public Component
 	{
+		REGISTER_COMPONENT(Rigidbody2D);
+
 	public:
 		explicit Rigidbody2D(const wchar_t* name);
 	private:

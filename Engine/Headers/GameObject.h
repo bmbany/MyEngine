@@ -52,12 +52,11 @@ namespace Engine
 			return nullptr;
 		}
 
-		template<typename T, typename... Args>
-			requires (std::is_base_of<Component, T>::value) &&
-			requires (Args&&... args) { new T(std::forward<Args>(args)...); }
-		T* AddComponent(Args&&... args)
+		template<typename T>
+			/*requires (std::is_base_of<Component, T>::value)*/
+		T* AddComponent(const wchar_t* name)
 		{
-			T* pComponent = new T(std::forward<Args>(args)...);
+			T* pComponent = new T(name);
 			pComponent->_pOwner = this;
 			pComponent->_pTransform = _pTransform;
 			pComponent->Awake();

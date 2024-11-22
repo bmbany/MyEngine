@@ -105,7 +105,7 @@ void Engine::Shader::CompileShader(std::vector<uint8_t>& output, const std::file
 	ID3DBlob* pShaderBlob = nullptr;
 	ID3DBlob* pErrorBlob = nullptr;
 	
-	IncludeHandler includeHandler(L"../Engine/Shaders/");
+	IncludeHandler includeHandler(L"../../Engine/Shaders/");
 
 	D3DCompileFromFile(path, macros.data(), &includeHandler, entry, model, D3DCOMPILE_ENABLE_STRICTNESS, 0, &pShaderBlob, &pErrorBlob);
 

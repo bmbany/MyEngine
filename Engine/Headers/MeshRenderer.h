@@ -7,13 +7,16 @@ namespace Engine
 	class CameraManager;
 	class MeshRenderer : public Component
 	{
+		REGISTER_COMPONENT(MeshRenderer);
+
 	public:
-		explicit MeshRenderer(const wchar_t* name, const wchar_t* modelFilePath);
+		explicit MeshRenderer(const wchar_t* name);
 
 	private:
 		virtual ~MeshRenderer() = default;
 
 	public:
+		void Initialize(const wchar_t* modelFilePath);
 		void Render() override;
 
 	private:
@@ -24,6 +27,5 @@ namespace Engine
 		CameraManager*			_pCameraMgr{ nullptr };
 		std::shared_ptr<Model>	_model;
 		ID3D11DeviceContext*	_pDeviceContext{ nullptr };
-		const wchar_t*			_modelFilePath = nullptr;
 	};
 }

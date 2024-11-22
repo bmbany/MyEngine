@@ -6,6 +6,8 @@ namespace Engine
     class State;
     class FiniteStateMachine : public Component
     {
+        //REGISTER_COMPONENT(FiniteStateMachine);
+
     public:
         explicit FiniteStateMachine(const wchar_t* name, const int size);
     private:

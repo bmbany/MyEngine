@@ -4,7 +4,7 @@
 namespace Engine
 {
 	class BitFlag : public Component
-	{	
+	{
 	public:
 		explicit BitFlag(const wchar_t* name);
 	private:

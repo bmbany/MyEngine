@@ -121,7 +121,7 @@ bool Engine::GameManager::Initialize(const GameDefaultSetting& info)
     if (nullptr == _pWinApp)
         return false;
    
-    if (false == g_pGraphicMgr->SetUpGraphic(_pWinApp->GetWindow(), info.width, info.height, info.isFullScreen))
+    if (E_FAIL == g_pGraphicMgr->SetUpGraphic(_pWinApp->GetWindow(), info.width, info.height, info.isFullScreen))
         return false;
 
     if (false == _pInputMgr->SetUpInputDevice(info.hInstance, _pWinApp->GetWindow()))

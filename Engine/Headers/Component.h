@@ -25,8 +25,8 @@ namespace Engine
 		virtual void Render() {}
 
 	public:
-		template <typename T, typename... Args>
-		T* AddComponent(Args&&... args);
+		template <typename T>
+		T* AddComponent(const wchar_t* name);
 	
 		template<typename T>
 		T* GetComponent();
@@ -44,10 +44,10 @@ namespace Engine
 }
 
 #include "GameObject.h"
-template <typename T, typename... Args>
-inline T* Engine::Component::AddComponent(Args&&... args)
+template <typename T>
+inline T* Engine::Component::AddComponent(const wchar_t* name)
 {
-	return _pOwner->AddComponent<T>(std::forward<Args>(args)...);
+	return _pOwner->AddComponent<T>(name);
 }
 
 template<typename T>

@@ -17,8 +17,8 @@ namespace Engine
 		virtual void Awake() = 0;
 		virtual void Start() = 0;
 		virtual void FixedUpdate() {}
-		virtual void Update(const float& deltaTime) = 0;
-		virtual void LateUpdate(const float& deltaTime) = 0;
+		virtual void Update(const float deltaTime) = 0;
+		virtual void LateUpdate(const float deltaTime) = 0;
 		virtual void Render() {}
 
 	public:

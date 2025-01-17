@@ -66,7 +66,7 @@ namespace Engine
 		virtual ~InputManager() = default;
 
 	public:
-		void Update(const float& deltaTime);
+		void Update(const float deltaTime);
 		bool SetUpInputDevice(HINSTANCE hInstance, HWND hWnd);
 		
 	public:

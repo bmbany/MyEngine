@@ -2,7 +2,7 @@
 
 using namespace Engine;
 
-void Engine::EventInvoker::Update(const float& deltaTime)
+void Engine::EventInvoker::Update(const float deltaTime)
 {
 	auto iter_end = _events.end();
 

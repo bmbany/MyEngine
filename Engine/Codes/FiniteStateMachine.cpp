@@ -9,12 +9,12 @@ Engine::FiniteStateMachine::FiniteStateMachine(const wchar_t* name, const int si
 	_states.resize(size);
 }
 
-void Engine::FiniteStateMachine::Update(const float& deltaTime)
+void Engine::FiniteStateMachine::Update(const float deltaTime)
 {
 	_states[_currStateIndex]->Update(deltaTime);
 }
 
-void Engine::FiniteStateMachine::LateUpdate(const float& deltaTime)
+void Engine::FiniteStateMachine::LateUpdate(const float deltaTime)
 {
 	int nextState = _states[_currStateIndex]->LateUpdate(deltaTime);
 

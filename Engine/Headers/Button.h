@@ -22,7 +22,7 @@ namespace Engine
 		virtual ~Button() = default;
 	
 	public:
-		void Update(const float& deltaTime) override;
+		void Update(const float deltaTime) override;
 
 	public:
 		void SetRange(const Vector3& position, float width, float height); 

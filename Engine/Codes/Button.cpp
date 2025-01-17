@@ -9,7 +9,7 @@ Button::Button(const wchar_t* name)
 {
 }
 
-void Button::Update(const float& deltaTime)
+void Button::Update(const float deltaTime)
 {
 	const Vector3& mousePosition = _pInputManager->GetMousePosition();
 

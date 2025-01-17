@@ -20,7 +20,7 @@ namespace Engine
 		virtual ~EventInvoker() = default;
 
 	public:
-		void Update(const float& deltaTime);
+		void Update(const float deltaTime);
 		void Invoke(const wchar_t* name, const std::function<void()>& function, float delay);
 		void InvokeRepeating(const wchar_t* name, const std::function<void()>& function, float delay, float repeatDelay);
 		void CancelInvoke(const wchar_t* name);

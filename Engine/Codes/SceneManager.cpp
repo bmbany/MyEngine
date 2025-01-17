@@ -34,7 +34,7 @@ void Engine::SceneManager::FixedUpdate()
 	}
 }
 
-int Engine::SceneManager::Update(const float& deltaTime)
+int Engine::SceneManager::Update(const float deltaTime)
 {
 	if (nullptr == _pScene || !_isSetUp)
 		return GameState::Error;
@@ -107,7 +107,7 @@ int Engine::SceneManager::Update(const float& deltaTime)
 	return 0;
 }
 
-int Engine::SceneManager::LateUpdate(const float& deltaTime)
+int Engine::SceneManager::LateUpdate(const float deltaTime)
 {
 	if (nullptr == _pScene || !_isSetUp)
 		return GameState::Error;

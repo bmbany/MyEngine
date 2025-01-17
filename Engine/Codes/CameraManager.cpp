@@ -9,13 +9,13 @@ void Engine::CameraManager::FixedUpdate()
 	_pCurrentCamera->FixedUpdate();
 }
 
-void Engine::CameraManager::Update(const float& deltaTime)
+void Engine::CameraManager::Update(const float deltaTime)
 {
 	_ASSERT(_pCurrentCamera);
 	_pCurrentCamera->Update(deltaTime);
 }
 
-void Engine::CameraManager::LateUpdate(const float& deltaTime)
+void Engine::CameraManager::LateUpdate(const float deltaTime)
 {
 	_ASSERT(_pCurrentCamera);
 	_pCurrentCamera->LateUpdate(deltaTime);

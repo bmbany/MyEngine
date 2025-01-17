@@ -8,7 +8,7 @@ Engine::Timer::Timer(const wchar_t* name, const int size)
 	_timers.resize(size);
 }
 
-void Engine::Timer::Update(const float& deltaTime)
+void Engine::Timer::Update(const float deltaTime)
 {
 	for (auto& Timer : _timers)
 	{

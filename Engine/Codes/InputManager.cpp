@@ -3,7 +3,7 @@
 
 using namespace Engine;
 
-void InputManager::Update(const float& deltaTime)
+void InputManager::Update(const float deltaTime)
 {
     memcpy(&_oldKeyState, &_keyState, sizeof(_keyState));
     memcpy(&_oldMouseState, &_mouseState, sizeof(_mouseState));

@@ -39,7 +39,7 @@ void Engine::GameObject::FixedUpdate()
 	}
 }
 
-int Engine::GameObject::Update(const float& deltaTime)
+int Engine::GameObject::Update(const float deltaTime)
 {
 	if (!_isFirstInit) return 0;
 
@@ -52,7 +52,7 @@ int Engine::GameObject::Update(const float& deltaTime)
 	return 0;
 }
 
-int Engine::GameObject::LateUpdate(const float& deltaTime)
+int Engine::GameObject::LateUpdate(const float deltaTime)
 {
 	if (!_isFirstInit) return 0;
 

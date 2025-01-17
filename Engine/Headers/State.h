@@ -9,8 +9,8 @@ namespace Engine
 		virtual ~State() = default;
 
 	public:
-		virtual int Update(const float& deltaTime) = 0;
-		virtual int LateUpdate(const float& deltaTime) = 0;
+		virtual int Update(const float deltaTime) = 0;
+		virtual int LateUpdate(const float deltaTime) = 0;
 		virtual void OnStart() = 0;
 		virtual void OnExit() = 0;
 		virtual void Reset() {}

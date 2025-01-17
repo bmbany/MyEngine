@@ -1,7 +1,7 @@
 #include "MainCamera.h"
 #include "../../Engine/Headers/Engine.h"
 
-void MainCamera::Update(const float& deltaTime)
+void MainCamera::Update(const float deltaTime)
 {
 	constexpr float dpi = 0.1f;
 	if (_CanCameraMove)

@@ -20,7 +20,7 @@ namespace Engine
         virtual ~SoundManager() = default;
 
     public:
-        void Update(const float& deltaTime);
+        void Update(const float deltaTime);
         FMOD::Channel* PlaySound(const char* soundTag, int channelID, float volume, bool isLoop);
         void StopSound();
         void StopSound(int channelID);

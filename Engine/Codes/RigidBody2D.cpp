@@ -11,7 +11,7 @@ Engine::Rigidbody2D::Rigidbody2D(const wchar_t* name)
 {	
 }
 
-void Engine::Rigidbody2D::Update(const float& deltaTime)
+void Engine::Rigidbody2D::Update(const float deltaTime)
 {
 	// ÈûÀÇ Å©±â
 	XMVECTOR xmForce = XMVector3Length(_force);
@@ -82,7 +82,7 @@ void Engine::Rigidbody2D::Update(const float& deltaTime)
 	Gravity(deltaTime);
 }
 
-void Engine::Rigidbody2D::Gravity(const float& deltaTime)
+void Engine::Rigidbody2D::Gravity(const float deltaTime)
 {
 	if (_isActiveGravity)
 	{

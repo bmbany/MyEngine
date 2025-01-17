@@ -14,8 +14,8 @@ namespace Engine
 	public:
 		void Start();
 		void FixedUpdate();
-		int Update(const float& deltaTime);
-		int LateUpdate(const float& deltaTime);
+		int Update(const float deltaTime);
+		int LateUpdate(const float deltaTime);
 		void AddRenderGroup();
 
 		void SetUpLayer(const int layerSize);

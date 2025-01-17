@@ -2,7 +2,7 @@
 
 using namespace Engine;
 
-void Engine::SoundManager::Update(const float& deltaTime)
+void Engine::SoundManager::Update(const float deltaTime)
 {
     for (int i = 0; i < _maxGroup; i++)
     {

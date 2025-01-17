@@ -13,8 +13,8 @@ namespace Engine
 
 	public:
 		void FixedUpdate();
-		void Update(const float& deltaTime);
-		void LateUpdate(const float& deltaTime);
+		void Update(const float deltaTime);
+		void LateUpdate(const float deltaTime);
 
 	public:
 		Camera* GetCurrentCamera() const { return _pCurrentCamera; }

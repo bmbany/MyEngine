@@ -37,7 +37,7 @@ namespace Engine
 		const std::vector<Matrix>& GetAnimationTransform() const { return _animationTransforms; }
 
 	public:
-		void Update(const float& deltaTime) override;
+		void Update(const float deltaTime) override;
 
 	public:
 		void Intialize(const wchar_t* filePath, Skeleton* pSkeleton);
@@ -47,8 +47,8 @@ namespace Engine
 
 	private:
 		void UpdateAnimationTransform(const Bone& skeletion, const XMMATRIX& parentTransform, Controller* controller);
-		XMVECTOR InterpolationVector3(const std::vector<std::pair<float, Vector3>>& v, const float& t);
-		XMVECTOR InterpolationVector4(const std::vector<std::pair<float, Vector4>>& v, const float& t);
+		XMVECTOR InterpolationVector3(const std::vector<std::pair<float, Vector3>>& v, const float t);
+		XMVECTOR InterpolationVector4(const std::vector<std::pair<float, Vector4>>& v, const float t);
 		XMMATRIX BlendAnimationMatrix(const XMMATRIX& matrix1, const XMMATRIX& matrix2, float t);
 
 		template<typename T>

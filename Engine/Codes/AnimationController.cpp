@@ -9,7 +9,7 @@ Engine::AnimationController::AnimationController(const wchar_t* name)
 {	
 }
 
-void Engine::AnimationController::Update(const float& deltaTime)
+void Engine::AnimationController::Update(const float deltaTime)
 {
 	XMMATRIX identity = XMMatrixIdentity();
 
@@ -159,7 +159,7 @@ void Engine::AnimationController::UpdateAnimationTransform(const Bone& skeletion
 	}
 }
 
-XMVECTOR Engine::AnimationController::InterpolationVector3(const std::vector<std::pair<float, Vector3>>& v, const float& t)
+XMVECTOR Engine::AnimationController::InterpolationVector3(const std::vector<std::pair<float, Vector3>>& v, const float t)
 {
 	if (v.empty())
 		return XMVectorZero();
@@ -178,7 +178,7 @@ XMVECTOR Engine::AnimationController::InterpolationVector3(const std::vector<std
 	return XMVectorLerp(v1, v2, factor);
 }
 
-XMVECTOR Engine::AnimationController::InterpolationVector4(const std::vector<std::pair<float, Vector4>>& v, const float& t)
+XMVECTOR Engine::AnimationController::InterpolationVector4(const std::vector<std::pair<float, Vector4>>& v, const float t)
 {
 	if (v.empty())
 		return XMVectorZero();

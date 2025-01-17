@@ -22,8 +22,8 @@ namespace Engine
 
 	public:
 		virtual void FixedUpdate();
-		virtual void Update(const float& deltaTime);
-		virtual void LateUpdate(const float& deltaTime);
+		virtual void Update(const float deltaTime);
+		virtual void LateUpdate(const float deltaTime);
 
 	private:
 		// Base을(를) 통해 상속됨

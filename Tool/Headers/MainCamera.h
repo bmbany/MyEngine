@@ -12,7 +12,7 @@ public:
 	void SetCanMove(bool isActive) { _CanCameraMove = isActive; }
 
 public:
-	void Update(const float& deltaTime) override;
+	void Update(const float deltaTime) override;
 
 private:
 	bool _CanCameraMove{ false };

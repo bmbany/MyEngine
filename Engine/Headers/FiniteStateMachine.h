@@ -14,8 +14,8 @@ namespace Engine
         virtual ~FiniteStateMachine() = default;
 
     public:
-        void Update(const float& deltaTime) override;
-        void LateUpdate(const float& deltaTime) override;
+        void Update(const float deltaTime) override;
+        void LateUpdate(const float deltaTime) override;
         void Reset();
         void Reset(const int& group);
 

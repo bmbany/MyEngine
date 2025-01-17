@@ -2,7 +2,7 @@
 
 #ifdef _DEBUG
 	#define REGISTER_COMPONENT(Type) \
-	struct dummy_##Type { inline static const bool dummy = ComponentFactory::RegisterComponent(L#Type, \
+	struct Dummy_##Type { inline static const bool dummy = ComponentFactory::RegisterComponent(L#Type, \
 	[](GameObject* pGameObject) { return (Component*)pGameObject->AddComponent<Type>(L#Type); }); };
 #else
 	#define REGISTER_COMPOENT(Type) (void(0))

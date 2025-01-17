@@ -4,6 +4,7 @@
 #ifdef _DEBUG
 #undef new
 #endif
+
 #include "../../Reference/inc/imgui.h"
 #include "../../Reference/inc/imgui_impl_win32.h"
 #include "../../Reference/inc/imgui_impl_dx11.h"

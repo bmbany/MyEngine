@@ -80,8 +80,8 @@ namespace Engine
 	private:
 		void Start();
 		void FixedUpdate();
-		int Update(const float& deltaTime);
-		int LateUpdate(const float& deltaTime);
+		int Update(const float deltaTime);
+		int LateUpdate(const float deltaTime);
 		void AddRenderer();
 		void Render();
 

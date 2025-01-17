@@ -14,7 +14,7 @@ namespace Engine
 		virtual ~Rigidbody2D() = default;
 
 	public:
-		void Update(const float& deltaTime) override;
+		void Update(const float deltaTime) override;
 
 	public:
 		void AddForce(const Vector3& force);
@@ -23,10 +23,10 @@ namespace Engine
 		bool IsActiveGravity() const { return _isActiveGravity; }
 		Vector3 GetVelocity() const { return _velocity; }
 		Vector3 GetMaxVelocity() const { return _maxVelocity; }
-		void SetMass(const float& mass) { _mass = mass; }
+		void SetMass(const float mass) { _mass = mass; }
 		void SetVelocity(const Vector3& velocity) { _velocity = velocity; }
 		void SetMaxVelocity(const Vector3& velocity) { _maxVelocity = velocity; }
-		void SetFrictionCoefficient(const float& coefficient) { _frictionCoefficient = coefficient; }
+		void SetFrictionCoefficient(const float coefficient) { _frictionCoefficient = coefficient; }
 		void SetActiveGravity(bool isActive) { _isActiveGravity = isActive; }
 		void SetGravityScale(float scale) { _gravity = scale; }
 		void SetAddAccel(const Vector3& accel) { _addAccel = accel; }
@@ -37,7 +37,7 @@ namespace Engine
 		__declspec(property(put = SetFrictionCoefficient)) float friction;
 
 	private:
-		void Gravity(const float& deltaTime);
+		void Gravity(const float deltaTime);
 		// Component을(를) 통해 상속됨
 		void Free() override;
 

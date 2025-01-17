@@ -19,7 +19,7 @@ void Engine::Camera::FixedUpdate()
 {
 }
 
-void Engine::Camera::Update(const float& deltaTime)
+void Engine::Camera::Update(const float deltaTime)
 {
 	const float speed = 100.f;
 	const float dpi = 0.1f;
@@ -64,7 +64,7 @@ void Engine::Camera::Update(const float& deltaTime)
 	}
 }
 
-void Engine::Camera::LateUpdate(const float& deltaTime)
+void Engine::Camera::LateUpdate(const float deltaTime)
 {
 	const Matrix& world = _pTransform->worldMatrix;
 	_view = XMMatrixInverse(nullptr, world);

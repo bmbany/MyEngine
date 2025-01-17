@@ -19,7 +19,7 @@ namespace Engine
         virtual ~Timer() = default;
 
     public:
-        void Update(const float& deltaTime) override;
+        void Update(const float deltaTime) override;
 
     public:
         bool IsOverTime(int group, float time);

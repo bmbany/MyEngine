@@ -13,12 +13,12 @@
 
 constexpr float InspectorWidth = 500.f;
 
-int MainFrame::Update(const float& deltaTime)
+int MainFrame::Update(const float deltaTime)
 {
     return 0;
 }
 
-int MainFrame::LateUpdate(const float& deltaTime)
+int MainFrame::LateUpdate(const float deltaTime)
 {
     return 0;
 }
